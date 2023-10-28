@@ -1251,7 +1251,6 @@ justify-content: center;
   }
 }
 
-
 @media screen and (max-width: 663px) {
   .left{
       width: 100%;
@@ -1300,7 +1299,7 @@ justify-content: center;
   height: 39px;
 }
 
-/* ///////////////////////////////////////////////////Sign in/////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////Sign in///////////// */
 .bg-dark{
   min-height: 100vh;
 }
@@ -1328,3 +1327,9 @@ justify-content: center;
 .cur{
   cursor: pointer;
 }
+
+
+
+/* عملت كوميت جديد وبغيظ ال جيت اني بقيت عارف اشتغل عليه :p :p :p */
+
+/* new new */
