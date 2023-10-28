@@ -300,7 +300,7 @@ const Navbar = () => {
               <FontAwesomeIcon className="svg" icon={faHouse} />
               Home
             </NavLink>
-            <NavLink to="/home" className="home__nav__a-hidden"> 
+            <NavLink to="/home" className="home__nav__a-hidden">
               <FontAwesomeIcon className="svg" icon={faHouse} />
             </NavLink>
           </li>
