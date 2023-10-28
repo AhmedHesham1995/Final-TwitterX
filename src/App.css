@@ -1251,7 +1251,6 @@ justify-content: center;
   }
 }
 
-
 @media screen and (max-width: 663px) {
   .left{
       width: 100%;
@@ -1266,4 +1265,64 @@ justify-content: center;
   .left button{
       margin: 0 auto;
   }
+}
+/* ///////////////////////////////////////////////join////////////////////////////////////////////////////////// */
+.container-fluid{
+  padding: 5rem;
+  min-height: 91.8vh;
+}
+.logoWH{
+  width: 100%;
+  height: auto;
+}
+.HNText{
+  font-size: 60px
+}
+.JTText{
+  font-size: 40px
+}
+.rolesText{
+  font-size: 12px;
+}
+.link-secondary{
+  font-size: 14px;
+  padding: 5px;
+}
+.corp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btnM{
+  width: 230px; 
+  height: 39px;
+}
+
+/* ///////////////////////////////////////////////////Sign in///////////////////////////////////////////// */
+.bg-dark{
+  min-height: 100vh;
+}
+
+.BBG{
+  /* padding: 2rem; */
+}
+
+.logo{
+  width: 70px;
+  height: auto;
+}
+
+.SIText{
+  font-size: 40px;
+}
+
+.SUText{
+  font-size: 18px;
+}
+.root{
+  font-size: 17px;
+}
+
+.cur{
+  cursor: pointer;
 }
