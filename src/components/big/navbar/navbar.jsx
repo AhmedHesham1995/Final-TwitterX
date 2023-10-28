@@ -300,7 +300,11 @@ const Navbar = () => {
               <FontAwesomeIcon className="svg" icon={faHouse} />
               Home
             </NavLink>
+<<<<<<< HEAD
             <NavLink to="/home" className="home__nav__a-hidden"> 
+=======
+            <NavLink to="/home" className="home__nav__a-hidden">
+>>>>>>> origin/essam
               <FontAwesomeIcon className="svg" icon={faHouse} />
             </NavLink>
           </li>

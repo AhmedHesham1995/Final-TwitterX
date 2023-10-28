@@ -26,6 +26,12 @@ function App() {
         {path: 'join', element: <Join/>},
         {path: 'signUp', element: <SignUp/>},
         {path: 'signIn', element: <SignIn/>},
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/essam
 
         {path: '*', element: <NotFound/>},//wildCard
         
