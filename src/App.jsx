@@ -14,7 +14,6 @@ import NotFound from './pages/notFound'
 
 function App() {
   
-
   const router= createBrowserRouter([
     {
       path:'/',
@@ -27,10 +26,6 @@ function App() {
         {path: 'join', element: <Join/>},
         {path: 'signUp', element: <SignUp/>},
         {path: 'signIn', element: <SignIn/>},
-
-
-
-
 
         {path: '*', element: <NotFound/>},//wildCard
         

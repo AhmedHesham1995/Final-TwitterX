@@ -1307,7 +1307,6 @@ justify-content: center;
 
 .BBG{
   /* padding: 2rem; */
-  /* padding: 2rem; */
 }
 
 .logo{
@@ -1325,9 +1324,7 @@ justify-content: center;
 .root{
   font-size: 17px;
 }
-/* .cur{
-  cursor: pointer;
-} */
+
 .cur{
   cursor: pointer;
 }
