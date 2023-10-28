@@ -27,9 +27,6 @@ function App() {
         {path: 'signUp', element: <SignUp/>},
         {path: 'signIn', element: <SignIn/>},
 
-
-
-
         {path: '*', element: <NotFound/>},//wildCard
         
 
