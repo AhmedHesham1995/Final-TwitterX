@@ -9,6 +9,7 @@ import Explore from './pages/explore';
 import Lists from './pages/lists';
 import NotFound from './pages/notFound';
 import Profile from './pages/profile';
+import Communities from './pages/communities'
 function App() {
   
 
@@ -21,8 +22,7 @@ function App() {
         {path: 'explore', element: <Explore/>},
         {path: 'lists', element: <Lists/>},
         {path: 'profile', element: <Profile/>},
-
-
+        {path:'communities' , element : <Communities/>},
 
         {path: '*', element: <NotFound/>},//wildCard
         
