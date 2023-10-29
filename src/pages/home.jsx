@@ -81,6 +81,7 @@ const Home = () => {
                                 {/* Repeat this structure for additional items in the "What's happening" section */}
                             </div>
                             <div className="right__container">
+                                
                                <FollowParent/>
                                                        
         
