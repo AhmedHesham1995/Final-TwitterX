@@ -9,11 +9,8 @@ import Explore from './pages/explore';
 import Lists from './pages/lists';
 import NotFound from './pages/notFound';
 import Profile from './pages/profile';
-import Communities from './pages/communities'
 function App() {
-  
-
-  const router= createBrowserRouter([
+  const router = createBrowserRouter([
     {
       path:'/',
       element:<AppLayout/>,
@@ -22,7 +19,8 @@ function App() {
         {path: 'explore', element: <Explore/>},
         {path: 'lists', element: <Lists/>},
         {path: 'profile', element: <Profile/>},
-        {path:'communities' , element : <Communities/>},
+
+
 
         {path: '*', element: <NotFound/>},//wildCard
         
@@ -34,9 +32,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
