@@ -6,30 +6,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 const Mentions = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   return (
     <>
-      <section className="home" >
+      <section className="home">
         <Row>
           <Col sm={12} md={2}>
             <Navbar />
           </Col>
 
           <Col sm={11} md={6} className="test">
-            <section className="center" >
+            <section className="center">
               <div className="center__header ">
                 <div className="row mt-2 ms-2 ">
                   <div className="col text-start h4">Notification</div>
                   <div className="col text-end">
-                  <FontAwesomeIcon icon={faGear} className="right-search-icon me-5" />
+                    <FontAwesomeIcon
+                      icon={faGear}
+                      className="right-search-icon me-5"
+                    />
                   </div>
-                  
                 </div>
                 <div className="center__header__divs">
-                  <div className="" onClick={()=>{navigate("/notification")}}>
+                  <div
+                    className=""
+                    onClick={() => {
+                      navigate("/notifications");
+                    }}
+                  >
                     <span>All</span>
                   </div>
-                  <div className=""  onClick={()=>{navigate("/verified")}}>
+                  <div
+                    className=""
+                    onClick={() => {
+                      navigate("/verified");
+                    }}
+                  >
                     <span>Verified</span>
                   </div>
                   <div className="left">
@@ -37,18 +49,21 @@ const Mentions = () => {
                   </div>
                 </div>
               </div>
-              <div className="center__trend" >
-               <div className=" p-2 borders border-secondary border-bottom" style={{height:"800px"}}> 
-                <div className="row text-start align-items-center  p-1 ">
-                
-                <div className="col p-2 mt-1 text-center ">
-                  <h2>Nothing to see here — yet.</h2>
-                  <p className="text-secondary">When someone mentions you, you’ll find it here</p>
+              <div className="center__trend">
+                <div
+                  className=" p-2 borders border-secondary border-bottom"
+                  style={{ height: "800px" }}
+                >
+                  <div className="row text-start align-items-center  p-1 ">
+                    <div className="col p-2 mt-1 text-center ">
+                      <h2>Nothing to see here — yet.</h2>
+                      <p className="text-secondary">
+                        When someone mentions you, you’ll find it here
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-          </div>
-        </div>
-            
             </section>
           </Col>
           <Col md={4}>

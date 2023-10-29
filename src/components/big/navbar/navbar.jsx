@@ -41,17 +41,11 @@
 //                 </Row>
 //             </Container>
 //         </div>
-            
-        
+
 //     );
 // }
 
 // export default NavBar;
-
-
-
-
-
 
 // import React from 'react';
 // import { Container, Row } from 'react-bootstrap';
@@ -59,7 +53,6 @@
 // import h from '../../../assets/h.jpg'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faHouse } from '@fortawesome/free-solid-svg-icons'
-
 
 // const Navbar = () => {
 //     return (
@@ -109,11 +102,6 @@
 
 // export default Navbar;
 
-
-
-
-
-
 // import React from 'react';
 // import { Container, Row } from 'react-bootstrap';
 // import logo from '../../../assets/logo-white.png';
@@ -127,7 +115,7 @@
 //   faListUl,
 //   faUserGroup,
 //   faFeatherPointed,
-  
+
 // //   faTwitter,
 //   faUser,
 //   faEllipsis,
@@ -207,7 +195,6 @@
 //                 <a className="home__nav__a-hidden" href="#">
 //                 <FontAwesomeIcon className='svg' icon={faXTwitter} />
 
-
 //                 </a>
 //               </li>
 //               <li className="home__nav__li">
@@ -251,27 +238,19 @@
 //               <img src={h} alt="" />
 //             </div>
 //           </nav>
-          
-        
+
 //     </div>
 //   );
 // };
 
 // export default Navbar;
 
-
-
-
-
-
-
-
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Container, Row } from 'react-bootstrap';
-import logo from '../../../assets/logo-white.png';
-import h from '../../../assets/h.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Container, Row } from "react-bootstrap";
+import logo from "../../../assets/logo-white.png";
+import h from "../../../assets/h.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
   faMagnifyingGlass,
@@ -282,7 +261,7 @@ import {
   faFeatherPointed,
   faUser,
   faEllipsis,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const Navbar = () => {
@@ -314,7 +293,7 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className="home__nav__li">
-            <NavLink to="/notification" className="home__nav__a">
+            <NavLink to="/notifications" className="home__nav__a">
               <FontAwesomeIcon className="svg" icon={faBell} />
               Notifications
             </NavLink>
@@ -351,11 +330,11 @@ const Navbar = () => {
           </li>
           <li className="home__nav__li">
             <NavLink to="/verified" className="home__nav__a">
-              <FontAwesomeIcon className='svg' icon={faXTwitter} />
+              <FontAwesomeIcon className="svg" icon={faXTwitter} />
               Verified
             </NavLink>
             <NavLink to="/verified" className="home__nav__a-hidden">
-              <FontAwesomeIcon className='svg' icon={faXTwitter} />
+              <FontAwesomeIcon className="svg" icon={faXTwitter} />
             </NavLink>
           </li>
           <li className="home__nav__li">
@@ -380,7 +359,7 @@ const Navbar = () => {
         <button className="home__nav__btn">Post</button>
         <button className="home__nav__btn-hidden">
           <i className="fa-brands fa-twitter tweet"></i>
-          <FontAwesomeIcon className='tweet' icon={faFeatherPointed} />
+          <FontAwesomeIcon className="tweet" icon={faFeatherPointed} />
         </button>
         <div className="home__nav__profile">
           <div className="home__nav__profile__img">

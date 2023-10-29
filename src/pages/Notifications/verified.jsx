@@ -28,7 +28,7 @@ const Verified = () => {
                   
                 </div>
                 <div className="center__header__divs">
-                  <div className="" onClick={()=>{navigate("/notification")}}>
+                  <div className="" onClick={()=>{navigate("/notifications")}}>
                     <span>All</span>
                   </div>
                   <div className="left" >
