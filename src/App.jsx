@@ -5,20 +5,17 @@ import { RouterProvider } from "react-router-dom"
 import AppLayout from "./components/appLayout/appLayout"
 import Home from './pages/home'
 import 'bootstrap/dist/css/bootstrap.min.css';
-<<<<<<< HEAD
 import Explore from './pages/explore'
 import Lists from './pages/lists'
 import Join from './pages/Join'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
 import NotFound from './pages/notFound'
-
-=======
-import Explore from './pages/explore';
-import Lists from './pages/lists';
-import NotFound from './pages/notFound';
 import Profile from './pages/profile';
->>>>>>> origin/marah
+import Notification from './pages/Notifications/notification'
+import Mentions from './pages/Notifications/mentions'
+import Verified from './pages/Notifications/verified'
+
 function App() {
   
   const router= createBrowserRouter([
@@ -30,15 +27,13 @@ function App() {
         {path: 'home', element: <Home/>},
         {path: 'explore', element: <Explore/>},
         {path: 'lists', element: <Lists/>},
-<<<<<<< HEAD
+        {path:'notification', element: <Notification/>},
+        {path: 'mentions', element: <Mentions/>},
+        {path:'verified', element: <Verified/>},
         {path: 'join', element: <Join/>},
         {path: 'signUp', element: <SignUp/>},
         {path: 'signIn', element: <SignIn/>},
-=======
         {path: 'profile', element: <Profile/>},
-
-
->>>>>>> origin/marah
 
         {path: '*', element: <NotFound/>},//wildCard
         

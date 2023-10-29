@@ -314,7 +314,7 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className="home__nav__li">
-            <NavLink to="/notifications" className="home__nav__a">
+            <NavLink to="/notification" className="home__nav__a">
               <FontAwesomeIcon className="svg" icon={faBell} />
               Notifications
             </NavLink>
