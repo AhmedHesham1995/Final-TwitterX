@@ -560,7 +560,7 @@ justify-content: center;
 .right__container__right img{
   height: 65px;
   width: 65px;
-  border-radius: 15px;
+  border-radius: 15px !important;
 }
 
 

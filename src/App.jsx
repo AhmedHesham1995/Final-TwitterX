@@ -2,7 +2,7 @@ import "./App.css";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import AppLayout from "./components/appLayout/appLayout";
-import Home from "./pages/home";
+import Home from "./pages/home/home";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Explore from "./pages/explore";
 import Lists from "./pages/lists";
@@ -15,6 +15,7 @@ import Notification from "./pages/Notifications/notification";
 import Mentions from "./pages/Notifications/mentions";
 import Verified from "./pages/Notifications/verified";
 import Communities from "./pages/communities";
+import Followings from "./pages/home/followings";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,7 @@ function App() {
       children: [
         { index: true, element: <Join /> },
         { path: "home", element: <Home /> },
+        { path: "followings", element: <Followings /> },
         { path: "explore", element: <Explore /> },
         { path: "lists", element: <Lists /> },
         { path: "notifications", element: <Notification /> },

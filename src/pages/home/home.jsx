@@ -1,18 +1,19 @@
 
 import React from 'react';
-import Navbar from '../components/big/navbar/navbar';
-import h from '../assets/h.jpg';
-import fashion from '../assets/fashion.jpg';
-import { Col, Container, Row } from 'react-bootstrap';
+import Navbar from '../../components/big/navbar/navbar';
+import h from '../../assets/h.jpg';
+import { Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faRetweet, faHeart, faChartBar, faArrowUp, faImage, faSquare, faSmile, faCalendar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import Premium from '../components/small/premium';
-import Happen from '../components/small/happen';
-import Follow from '../components/small/follow';
-import Posts from '../components/small/posts';
-import HappenParent from '../components/medium/happenParent';
-import FollowParent from '../components/medium/followParent';
+import { faImage, faSquare, faSmile, faCalendar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import Premium from '../../components/small/premium';
+import Posts from '../../components/small/posts';
+import HappenParent from '../../components/medium/happenParent';
+import FollowParent from '../../components/medium/followParent';
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
+  const navigate = useNavigate();
+
     return (
         <section className="home">
             {/* <Container> */}
@@ -27,8 +28,8 @@ const Home = () => {
                             <div className="center__header">
                                 <h4>Home</h4>
                                 <div className="center__header__divs">
-                                    <div className="left"><span>For you</span></div>
-                                    <div className="right"><span>Following</span></div>
+                                    <div onClick={()=>{navigate('/home')}} className="left"><span>For you</span></div>
+                                    <div onClick={()=>{navigate('/followings')}} className="right"><span>Following</span></div>
                                 </div>
                             </div>
                             <div className="center__happen">
