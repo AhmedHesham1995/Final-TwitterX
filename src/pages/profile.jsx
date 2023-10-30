@@ -6,7 +6,7 @@ import {
   FaChartSimple,
   FaArrowUpFromBracket,
 } from "react-icons/fa6";
-import "./profile.css";
+
 import { Post } from "../components/medium/Links";
 import Navbar from "../components/big/navbar/navbar";
 import images from "../assets/images.jpeg";

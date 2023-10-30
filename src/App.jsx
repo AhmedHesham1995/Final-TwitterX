@@ -14,6 +14,7 @@ import Profile from "./pages/profile";
 import Notification from "./pages/Notifications/notification";
 import Mentions from "./pages/Notifications/mentions";
 import Verified from "./pages/Notifications/verified";
+import Communities from "./pages/communities";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,7 +33,7 @@ function App() {
         { path: "signUp", element: <SignUp /> },
         { path: "signIn", element: <SignIn /> },
         { path: "profile", element: <Profile /> },
-
+        {path:'communities' , element : <Communities/>},
         { path: "*", element: <NotFound /> }, //wildCard
       ],
     },
