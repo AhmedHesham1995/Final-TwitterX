@@ -1305,9 +1305,7 @@ justify-content: center;
   min-height: 100vh;
 }
 
-.BBG{
-  /* padding: 2rem; */
-}
+
 
 .logo{
   width: 70px;
@@ -1327,7 +1325,6 @@ justify-content: center;
 
 .cur{
   cursor: pointer;
-}
 }
 
 /* end of line */
