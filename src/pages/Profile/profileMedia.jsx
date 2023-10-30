@@ -1,6 +1,6 @@
 import React from 'react';
-import images from "../assets/images.jpeg";
-import quran from "../assets/quran.jpg";
+import images from "../../assets/images.jpeg";
+import quran from "../../assets/quran.jpg";
 import {
     FaRegComment,
     FaRetweet,

@@ -15,15 +15,12 @@ import Notification from "./pages/Notifications/notification";
 import Mentions from "./pages/Notifications/mentions";
 import Verified from "./pages/Notifications/verified";
 import Communities from "./pages/communities";
-<<<<<<< HEAD
 import Followings from "./pages/home/followings";
-=======
 import ProfilePosts from "./pages/Profile/profilePosts";
 import ProfileReplies from "./pages/Profile/profileReplies";
 import ProfileHighlights from "./pages/Profile/profileHighlights";
 import ProfileMedia from "./pages/Profile/profileMedia";
 import ProfileLikes from "./pages/Profile/ProfileLikes";
->>>>>>> origin/marah
 
 function App() {
   const router = createBrowserRouter([

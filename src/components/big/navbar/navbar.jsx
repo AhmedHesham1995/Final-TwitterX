@@ -358,7 +358,6 @@ const Navbar = () => {
         </ul>
         <button className="home__nav__btn">Post</button>
         <button className="home__nav__btn-hidden">
-          <i className="fa-brands fa-twitter tweet"></i>
           <FontAwesomeIcon className="tweet" icon={faFeatherPointed} />
         </button>
         <div className="home__nav__profile">

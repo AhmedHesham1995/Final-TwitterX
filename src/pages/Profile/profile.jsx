@@ -3,7 +3,7 @@ import React from "react";
 
 import { Post } from "../../components/small/Links";
 import Navbar from "../../components/big/navbar/navbar";
-import images from "../assets/images.jpeg";
+import images from "../../assets/images.jpeg";
 
 import { Col, Container, Row } from "react-bootstrap";
 
