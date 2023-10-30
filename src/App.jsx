@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn";
 import NotFound from "./pages/notFound";
 import Profile from "./pages/Profile/profile";
 import Notification from "./pages/Notifications/notification";
+import All from "./pages/Notifications/all";
 import Mentions from "./pages/Notifications/mentions";
 import Verified from "./pages/Notifications/verified";
 import Communities from "./pages/communities";
@@ -33,24 +34,30 @@ function App() {
         { path: "followings", element: <Followings /> },
         { path: "explore", element: <Explore /> },
         { path: "lists", element: <Lists /> },
-        { path: "notifications", element: <Notification /> },
-        { path: "mentions", element: <Mentions /> },
-        { path: "verified", element: <Verified /> },
+        {
+          path: "/notifications",
+          element: <Notification />,
+          children: [
+            { index: true, element: <All /> },
+            { path: "mentions", element: <Mentions /> },
+            { path: "verified", element: <Verified /> },
+          ],
+        },
         { path: "join", element: <Join /> },
         { path: "signUp", element: <SignUp /> },
         { path: "signIn", element: <SignIn /> },
         {
           path: "/profile",
-          element: <Profile/>,
+          element: <Profile />,
           children: [
-            {index : true , element :<ProfilePosts/>},
-            {path : 'replies' , element:<ProfileReplies/>} ,
-            {path :'highlights',element :<ProfileHighlights/>} ,
-            {path : 'media',element :<ProfileMedia/>} , 
-            {path : 'likes' ,element : <ProfileLikes/>}
+            { index: true, element: <ProfilePosts /> },
+            { path: "replies", element: <ProfileReplies /> },
+            { path: "highlights", element: <ProfileHighlights /> },
+            { path: "media", element: <ProfileMedia /> },
+            { path: "likes", element: <ProfileLikes /> },
           ],
         },
-        {path:'communities' , element : <Communities/>},
+        { path: "communities", element: <Communities /> },
         { path: "*", element: <NotFound /> }, //wildCard
       ],
     },
