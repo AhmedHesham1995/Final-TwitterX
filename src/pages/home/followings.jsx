@@ -23,10 +23,10 @@ const Followings = () => {
                         {/* Home content section */}
                         <section className="center">
                             <div className="center__header">
-                                <h4>followings</h4>
+                                <h4>Followings</h4>
                                 <div className="center__header__divs">
-                                    <div onClick={()=>{navigate('/home')}} className="left"><span>For you</span></div>
-                                    <div onClick={()=>{navigate('/followings')}} className="right"><span>Following</span></div>
+                                    <div onClick={()=>{navigate('/home')}} className="right"><span>For you</span></div>
+                                    <div onClick={()=>{navigate('/home/followings')}} className="left"><span>Following</span></div>
                                 </div>
                             </div>
                             <div className="center__happen">
@@ -56,10 +56,11 @@ const Followings = () => {
                                 </div>
                             </div>
 
-                            <Posts name="Ahmed Hesham" username="@ahmed10_hesham" date="Jun 27" content="You can do it!" img={h}/>
-                            <Posts name="Ahmed Hesham" username="@ahmed10_hesham" date="Jun 27" content="You can do it!" img={h}/>
-                            <Posts name="Ahmed Hesham" username="@ahmed10_hesham" date="Jun 27" content="You can do it!" img={h}/>
-                            <Posts name="Ahmed Hesham" username="@ahmed10_hesham" date="Jun 27" content="You can do it!" img={h}/>
+                            <Posts name="H" username="@ahmedH" date="Jun 27" content="My time is now!" img={h}/>
+                            <Posts name="H" username="@ahmedH" date="Jun 27" content="My time is now!" img={h}/>
+                            <Posts name="H" username="@ahmedH" date="Jun 27" content="My time is now!" img={h}/>
+                            <Posts name="H" username="@ahmedH" date="Jun 27" content="My time is now!" img={h}/>
+                            
                             
                             
                             

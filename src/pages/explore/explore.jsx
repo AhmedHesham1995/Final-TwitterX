@@ -1,15 +1,15 @@
 import React from 'react';
-import Navbar from '../components/big/navbar/navbar';
+import Navbar from '../../components/big/navbar/navbar';
 import {Container, Row,Col } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faMagnifyingGlass,faEllipsis} from '@fortawesome/free-solid-svg-icons';
-import h from '../assets/h.jpg';
-import Premium from '../components/small/premium';
-import Follow from '../components/small/follow';
-import ExploreComp from '../components/small/exploreComp';
-import FollowParent from '../components/medium/followParent';
+import Premium from '../../components/small/premium';
+import ExploreComp from '../../components/small/exploreComp';
+import FollowParent from '../../components/medium/followParent';
+import { useNavigate } from 'react-router-dom';
 const Explore = () => {
+    const navigate=useNavigate()
     return (
         <section className="home">
             <Row>
@@ -25,11 +25,11 @@ const Explore = () => {
                         <input type="search" placeholder="Search" />
                         </div>
                         <div className="center__header__divs">
-                        <div className="left"><span>For you</span></div>
-                        <div className="right"><span>Trending</span></div>
-                        <div className="right"><span>News</span></div>
-                        <div className="right"><span>Sports</span></div>
-                        <div className="right"><span>Entertainment</span></div>
+                        <div onClick={()=>{navigate('/explore')}}  className="left"><span>For you</span></div>
+                        <div onClick={()=>{navigate('/trend')}}  className="right"><span>Trending</span></div>
+                        <div onClick={()=>{navigate('/news')}}  className="right"><span>News</span></div>
+                        <div onClick={()=>{navigate('/sports')}}  className="right"><span>Sports</span></div>
+                        <div onClick={()=>{navigate('/entertainment')}}  className="right"><span>Entertainment</span></div>
                         </div>
                     </div>
 

@@ -26,7 +26,7 @@ const Lists = () => {
                 <section className="center">
                     <div className="right__search">
                         <FontAwesomeIcon icon={faMagnifyingGlass} className="right-search-icon" />
-                        <input type="search" placeholder="Search" />
+                        <input className='input-a' type="search" placeholder="Search" />
                     </div>
                     <div className="center__discover">
                         <h5>Discover New Lists</h5>

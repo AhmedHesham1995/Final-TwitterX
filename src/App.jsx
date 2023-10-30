@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import AppLayout from "./components/appLayout/appLayout";
 import Home from "./pages/home/home";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Explore from "./pages/explore";
+import Explore from "./pages/explore/explore";
 import Lists from "./pages/lists";
 import Join from "./pages/Join";
 import SignUp from "./pages/SignUp";
@@ -21,6 +21,10 @@ import ProfileReplies from "./pages/Profile/profileReplies";
 import ProfileHighlights from "./pages/Profile/profileHighlights";
 import ProfileMedia from "./pages/Profile/profileMedia";
 import ProfileLikes from "./pages/Profile/ProfileLikes";
+import Entertainment from "./pages/explore/entertainment";
+import Trending from "./pages/explore/trending";
+import News from "./pages/explore/news";
+import Sports from "./pages/explore/sports";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,6 +36,10 @@ function App() {
         { path: "home", element: <Home /> },
         { path: "followings", element: <Followings /> },
         { path: "explore", element: <Explore /> },
+        { path: "entertainment", element: <Entertainment /> },
+        { path: "trend", element: <Trending /> },
+        { path: "news", element: <News /> },
+        { path: "sports", element: <Sports /> },
         { path: "lists", element: <Lists /> },
         { path: "notifications", element: <Notification /> },
         { path: "mentions", element: <Mentions /> },
