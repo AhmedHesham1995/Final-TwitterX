@@ -71,7 +71,7 @@ const Followings = () => {
                         <section className="right">
                             <div className="right__search">
                                 <i className="fa-solid fa-magnifying-glass right-search-icon"></i>
-                                <input className='s-input' type="search" placeholder="Search" />
+                                <input className='input-a' type="search" placeholder="Search" />
                             </div>
                             <Premium/>
                             <div className="right__container">
