@@ -1045,11 +1045,12 @@ justify-content: center;
 
 .right-search-icon{
   line-height: 50px;
+  margin-left: 10px;
 }
 
-.right__search input{
+.right__search .s-input{
   width: 100%;
-  margin-left: 10px;
+  /* margin-left: 5px; */
   background-color:#202327;
   border: 1px solid #202327;
   color: #fff;
@@ -1189,7 +1190,7 @@ justify-content: center;
 }
 
   .test{
-      width:65% !important;
+      width:78% !important;
   }
 
   .left{
@@ -1205,6 +1206,7 @@ justify-content: center;
   .right{
       display: none;
   }
+  
 }
 
 
