@@ -10,12 +10,20 @@ import Join from "./pages/Join";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import NotFound from "./pages/notFound";
-import Profile from "./pages/profile";
+import Profile from "./pages/Profile/profile";
 import Notification from "./pages/Notifications/notification";
 import Mentions from "./pages/Notifications/mentions";
 import Verified from "./pages/Notifications/verified";
 import Communities from "./pages/communities";
+<<<<<<< HEAD
 import Followings from "./pages/home/followings";
+=======
+import ProfilePosts from "./pages/Profile/profilePosts";
+import ProfileReplies from "./pages/Profile/profileReplies";
+import ProfileHighlights from "./pages/Profile/profileHighlights";
+import ProfileMedia from "./pages/Profile/profileMedia";
+import ProfileLikes from "./pages/Profile/ProfileLikes";
+>>>>>>> origin/marah
 
 function App() {
   const router = createBrowserRouter([
@@ -34,7 +42,17 @@ function App() {
         { path: "join", element: <Join /> },
         { path: "signUp", element: <SignUp /> },
         { path: "signIn", element: <SignIn /> },
-        { path: "profile", element: <Profile /> },
+        {
+          path: "/profile",
+          element: <Profile/>,
+          children: [
+            {index : true , element :<ProfilePosts/>},
+            {path : 'replies' , element:<ProfileReplies/>} ,
+            {path :'highlights',element :<ProfileHighlights/>} ,
+            {path : 'media',element :<ProfileMedia/>} , 
+            {path : 'likes' ,element : <ProfileLikes/>}
+          ],
+        },
         {path:'communities' , element : <Communities/>},
         { path: "*", element: <NotFound /> }, //wildCard
       ],
