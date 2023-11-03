@@ -246,7 +246,7 @@
 // export default Navbar;
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 import logo from "../../../assets/logo-white.png";
 import h from "../../../assets/h.jpg";
@@ -263,8 +263,14 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
-
+import { useContext } from "react";
+import { authContext } from "../../../contexts/authContext";
 const Navbar = () => {
+
+  const {isLogin,setLogin} = useContext(authContext)
+
+  const navigate=useNavigate()
+
   return (
     <div className="navbar home">
       <nav className="home__nav">
@@ -360,7 +366,12 @@ const Navbar = () => {
         <button className="home__nav__btn-hidden">
           <FontAwesomeIcon className="tweet" icon={faFeatherPointed} />
         </button>
-        <div className="home__nav__profile">
+
+
+
+
+
+        {/* <div className="home__nav__profile">
           <div className="home__nav__profile__img">
             <img src={h} alt="" />
           </div>
@@ -374,7 +385,38 @@ const Navbar = () => {
         </div>
         <div className="home__nav__profile-hidden">
           <img src={h} alt="" />
+        </div> */}
+
+        {(isLogin)&&<><div onClick={()=>{
+                        setLogin(false)
+                        localStorage.removeItem('token')
+                        navigate('/signIn')
+                   }}  className="home__nav__profile">
+          <div className="home__nav__profile__img">
+            <img src={h} alt="" />
+          </div>
+          <div className="home__nav__profile__name">
+            <div>Ahmed Hesham</div>
+            <span>@ahmed10_hesh...</span>
+          </div>
+          <div className="home__nav__profile__svg">
+            <i className="fa-solid fa-ellipsis svg"></i>
+          </div>
         </div>
+        <div onClick={()=>{
+                        setLogin(false)
+                        localStorage.removeItem('token')
+                        navigate('/signIn')
+
+                   }} className="home__nav__profile-hidden">
+          <img src={h} alt="" />
+        </div></>}
+        
+        
+        
+        
+
+
       </nav>
     </div>
   );

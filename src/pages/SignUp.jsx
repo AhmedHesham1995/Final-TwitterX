@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { register } from '../services/auth';
+const MySwal = withReactContent(Swal);
 
 
 const SignUp = () => {
@@ -77,16 +81,37 @@ const SignUp = () => {
         }
     }
 
-    const signUpSubmit = () => {
-        navigate('/home');
-    }
+    const handleSubmit= async(ev)=>{
+        ev.preventDefault();
+        if(errors.nameError||errors.emailError||errors.passwordError){
+            // toast.error("Validation Error")
+            console.log('error');
+            MySwal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Please correct the form errors.',
+              });
+        }
+        else{
+            try{
+                const res = await register(user)
+                console.log(res);
+                navigate('/signIn')
+            }
+            catch(err){
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'something went wrong',
+                    text: 'Please correct the form errors.',
+                  });
+            }
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        {
-            signUpSubmit();
+            // const res = await register(account)
+            //     console.log(res);
+            
         }
     }
+
 
     return (
         <>

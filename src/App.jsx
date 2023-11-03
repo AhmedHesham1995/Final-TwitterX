@@ -26,55 +26,61 @@ import Entertainment from "./pages/explore/entertainment";
 import Trending from "./pages/explore/trending";
 import News from "./pages/explore/news";
 import Sports from "./pages/explore/sports";
+import { AuthProvider } from "./contexts/authContext";
+import { useState } from "react";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      { index: true, element: <Join /> },
+      { path: "home", element: <Home /> },
+      { path: "followings", element: <Followings /> },
+      { path: "explore", element: <Explore /> },
+      { path: "entertainment", element: <Entertainment /> },
+      { path: "trend", element: <Trending /> },
+      { path: "news", element: <News /> },
+      { path: "sports", element: <Sports /> },
+      { path: "lists", element: <Lists /> },
+      {
+        path: "/notifications",
+        element: <Notification />,
+        children: [
+          { index: true, element: <All /> },
+          { path: "mentions", element: <Mentions /> },
+          { path: "verified", element: <Verified /> },
+        ],
+      },
+      { path: "join", element: <Join /> },
+      { path: "signUp", element: <SignUp /> },
+      { path: "signIn", element: <SignIn /> },
+      {
+        path: "/profile",
+        element: <Profile />,
+        children: [
+          { index: true, element: <ProfilePosts /> },
+          { path: "replies", element: <ProfileReplies /> },
+          { path: "highlights", element: <ProfileHighlights /> },
+          { path: "media", element: <ProfileMedia /> },
+          { path: "likes", element: <ProfileLikes /> },
+        ],
+      },
+      { path: "communities", element: <Communities /> },
+      { path: "*", element: <NotFound /> }, //wildCard
+    ],
+  },
+]);
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <AppLayout />,
-      children: [
-        { index: true, element: <Join /> },
-        { path: "home", element: <Home /> },
-        { path: "followings", element: <Followings /> },
-        { path: "explore", element: <Explore /> },
-        { path: "entertainment", element: <Entertainment /> },
-        { path: "trend", element: <Trending /> },
-        { path: "news", element: <News /> },
-        { path: "sports", element: <Sports /> },
-        { path: "lists", element: <Lists /> },
-        {
-          path: "/notifications",
-          element: <Notification />,
-          children: [
-            { index: true, element: <All /> },
-            { path: "mentions", element: <Mentions /> },
-            { path: "verified", element: <Verified /> },
-          ],
-        },
-        { path: "join", element: <Join /> },
-        { path: "signUp", element: <SignUp /> },
-        { path: "signIn", element: <SignIn /> },
-        {
-          path: "/profile",
-          element: <Profile />,
-          children: [
-            { index: true, element: <ProfilePosts /> },
-            { path: "replies", element: <ProfileReplies /> },
-            { path: "highlights", element: <ProfileHighlights /> },
-            { path: "media", element: <ProfileMedia /> },
-            { path: "likes", element: <ProfileLikes /> },
-          ],
-        },
-        { path: "communities", element: <Communities /> },
-        { path: "*", element: <NotFound /> }, //wildCard
-      ],
-    },
-  ]);
+
+
+  const [isLogin,setLogin]=useState((localStorage.getItem('token'))?true:false)
 
   return (
-    <>
+    <AuthProvider value={{isLogin,setLogin}}>
       <RouterProvider router={router} />
-    </>
+    </AuthProvider>
   );
 }
 

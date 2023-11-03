@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import logo from '../assets/logo1.png';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { login } from '../services/auth';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
+import { authContext } from '../contexts/authContext';
 
 
 const SignIn = () => {
+
+const {setLogin}=useContext(authContext)
 
     const navigate = useNavigate();
     const [user, setUser] = useState({
@@ -60,12 +67,36 @@ const SignIn = () => {
         navigate('/home');
     }
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        {
-            signInSubmit();
+    const handleSubmit=async(ev)=>{
+        ev.preventDefault()
+
+         if(errors.emailError||errors.passwordError){
+            // toast.error("Validation Error")
+            console.log('error');
+            MySwal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Please correct the form errors.',
+              });
         }
-    }
+        else{
+            try{
+                const res = await login(user)
+                console.log(res);
+                localStorage.setItem("token",res.data.token)
+                setLogin(true)
+                navigate('/home')
+                
+            }
+            catch(err){
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'something went wrong',
+                    text: 'Please correct the form errors.',
+                  });
+            }
+
+    }}
 
     return (
         <>
