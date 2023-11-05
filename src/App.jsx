@@ -37,8 +37,6 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <Join /> },
-      // { path: "home", element: <Home /> },
-      // { path: "followings", element: <Followings /> },
 
       {
         path: "/home",
