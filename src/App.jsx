@@ -28,6 +28,8 @@ import News from "./pages/explore/news";
 import Sports from "./pages/explore/sports";
 import { AuthProvider } from "./contexts/authContext";
 import { useState } from "react";
+import HomeNav from "./pages/home/home-nav";
+import ExploreNav from "./pages/explore/explore-nav";
 
 const router = createBrowserRouter([
   {
@@ -35,13 +37,39 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <Join /> },
-      { path: "home", element: <Home /> },
-      { path: "followings", element: <Followings /> },
-      { path: "explore", element: <Explore /> },
-      { path: "entertainment", element: <Entertainment /> },
-      { path: "trend", element: <Trending /> },
-      { path: "news", element: <News /> },
-      { path: "sports", element: <Sports /> },
+      // { path: "home", element: <Home /> },
+      // { path: "followings", element: <Followings /> },
+
+      {
+        path: "/home",
+        element: <HomeNav />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "followings", element: <Followings /> },
+        ],
+      },
+
+      {
+        path: "/home",
+        element: <HomeNav />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "followings", element: <Followings /> },
+        ],
+      },
+
+      {
+        path: "/explore",
+        element: <ExploreNav />,
+        children: [
+          { index: true, element: <Explore /> },
+          { path: "entertainment", element: <Entertainment /> },
+          { path: "trend", element: <Trending /> },
+          { path: "news", element: <News /> },
+          { path: "sports", element: <Sports /> },
+        ],
+      },
+      
       { path: "lists", element: <Lists /> },
       {
         path: "/notifications",
