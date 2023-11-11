@@ -8,3 +8,5 @@ export const register=(data)=>{
 export const login=(data)=>{
     return instance.post('/users/login',data)
 }
+
+

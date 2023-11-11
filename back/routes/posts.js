@@ -12,7 +12,7 @@ router.get('/',getAllPosts)
 // router.use(auth) in case we apply authorization authentication on all methods
 
 
-router.post('/',auth,addPost)
+router.post('/',addPost)
 
 
 router.get('/:id',getOnePost)

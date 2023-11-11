@@ -11,6 +11,8 @@ import FollowPages from "../../components/medium/followPages";
 import ExploreComp from "../../components/small/exploreComp";
 import { Outlet ,Link, NavLink } from "react-router-dom";
 const Profile = () => {
+
+  
   return (
     <div className="bodyprofile">
       <Row className="row">
@@ -119,3 +121,140 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+
+
+
+
+
+
+// Profile.jsx
+// import React, { useState, useEffect } from "react";
+// import { NavLink } from "react-router-dom";
+// import Navbar from "../../components/big/navbar/navbar";
+// import images from "../../assets/images.jpeg";
+// import { Col, Container, Row } from "react-bootstrap";
+// import FollowPages from "../../components/medium/followPages";
+// import ExploreComp from "../../components/small/exploreComp";
+// import { Outlet } from "react-router-dom";
+
+// const Profile = () => {
+//   const [tweets, setTweets] = useState([]);
+
+//   useEffect(() => {
+//     // Fetch tweets from the backend API
+//     const fetchTweets = async () => {
+//       try {
+//         const response = await fetch('http://localhost:4005/posts'); // Adjust the URL based on your backend setup
+//         const data = await response.json();
+//         setTweets(data);
+//       } catch (error) {
+//         console.error('Error fetching tweets:', error.message);
+//       }
+//     };
+
+//     fetchTweets();
+//   }, []);
+
+  
+
+//   return (
+//     <div className="bodyprofile">
+//       <Row className="row">
+//         <Col sm={12} md={2}>
+//           <Navbar />
+//         </Col>
+//         <Col
+//           sm={12}
+//           md={6}
+//           className="center"
+//           style={{
+//             backgroundColor: "rgb(0, 0, 0)",
+//             border: "#c71818",
+//             position: "relative",
+//           }}
+//         >
+//           <div className="cover-pic"> </div>
+//           <div className="profile-name">
+//             <div className="profile-det">
+//               <img src={images} alt="" />
+//               <h4>Boo</h4>
+//               <h7>  @boo2435</h7>
+//               <br />
+//               <h7> 326 Followin 428 Followers</h7>
+//             </div>
+//             <div className="edit-profile">
+//               <button>Edit profile</button>
+//             </div>
+//           </div>
+//           <div className="activities">
+//             <NavLink
+//               style={({ isActive }) =>
+//                 isActive ? { color: "white" } : { color: "gray" }
+//               }
+//               to="/profile/"
+//             >
+//               <span> Posts</span>{" "}
+//             </NavLink>
+
+//             <NavLink
+//               style={({ isActive }) =>
+//                 isActive ? { color: "white" } : { color: "gray" }
+//               }
+//               to="/profile/replies"
+//             >
+//               <span> Replies</span>{" "}
+//             </NavLink>
+
+//             <NavLink
+//               style={({ isActive }) =>
+//                 isActive ? { color: "white" } : { color: "gray" }
+//               }
+//               to="/profile/highlights"
+//             >
+//               <span> Hightlights</span>{" "}
+//             </NavLink>
+
+//             <NavLink
+//               style={({ isActive }) =>
+//                 isActive ? { color: "white" } : { color: "gray" }
+//               }
+//               to="/profile/media"
+//             >
+//               <span> Media</span>{" "}
+//             </NavLink>
+//             <NavLink
+//               style={({ isActive }) =>
+//                 isActive ? { color: "white" } : { color: "gray" }
+//               }
+//               to="/profile/likes"
+//             >
+//               <span> Likes</span>{" "}
+//             </NavLink>
+//           </div>
+//           <hr />
+
+          
+//           {/* Section to display tweets */}
+//           {tweets.map((tweet) => (
+//             <div key={tweet._id}>
+//               <p>{tweet.title}</p>
+//               {/* Display other tweet information as needed */}
+//             </div>
+//           ))}
+//         </Col>
+
+//         <Col
+//           md={4}
+//           className="right"
+//           style={{ backgroundColor: "black" }}
+//         >
+//           {/* ... (remaining code remains unchanged) */}
+//         </Col>
+//       </Row>
+//     </div>
+//   );
+// };
+
+// export default Profile;
