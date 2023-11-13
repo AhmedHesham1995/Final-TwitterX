@@ -92,6 +92,12 @@ const usersSchema = mongoose.Schema({
         type: String,
         default: 'https://i.pinimg.com/564x/ed/1f/41/ed1f41959e7e9aa7fb0a18b76c6c2755.jpg' // Default profile picture URL
     },
+    username:{
+        type: String,
+        required: true,
+        unique: true,
+        minLength:3
+       },
     dob: Date
 }, { timestamps: true });
 
