@@ -40,7 +40,7 @@ const ProfileReplies = () => {
           (acc, post) => acc.concat(post.replies),
           []
         );
-        setReplies(allReplies);
+        setReplies(allReplies.reverse());
       } catch (error) {
         console.error("Error fetching replies:", error);
       }
@@ -52,7 +52,7 @@ const ProfileReplies = () => {
   return (
     <div>
       {replies.map((reply) => (
-        <Post key={reply._id} text={reply.text} />
+        <Post key={reply._id} text={reply.text}  />
       ))}
     </div>
   );

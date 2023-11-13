@@ -104,6 +104,7 @@
 import React, { useState, useEffect } from "react";
 import { Post } from "../../components/small/Links";
 import images from "../../assets/images.jpeg";
+import def from '../../assets/user.jpg'
 import quran from "../../assets/quran.jpg";
 import {
     FaRegComment,
@@ -121,7 +122,7 @@ const ProfilePosts = () => {
       try {
         const response = await fetch('http://localhost:4005/posts'); 
         const data = await response.json();
-        setPosts(data);
+        setPosts(data.reverse());
       } catch (error) {
         console.error('Error fetching posts:', error.message);
       }
@@ -136,7 +137,7 @@ const ProfilePosts = () => {
         <div key={post._id} className="posts">
           <div className="posts-top">
             <div className="pic">
-              {<img src={images} alt="" />}
+              {<img src={post.userProfilePicture} alt="" />}
             </div>
             <div className="content">
               <div className="name">Boo</div>
@@ -166,9 +167,9 @@ const ProfilePosts = () => {
         </div>
       ))}
 
-      <Post
+      {/* <Post
         text="رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ ..."
-      />
+      /> */}
     </div>
   );
 };
