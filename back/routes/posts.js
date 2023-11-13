@@ -3,7 +3,7 @@ const express=require('express')
 var router=express.Router()
 const {auth}=require('../middlewares/auth')
 
-var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply,myPosts}=require('../controllers/posts')
+var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply}=require('../controllers/posts')
 
 //posts (ahmed hesham)
 router.get('/',getAllPosts)
@@ -12,7 +12,7 @@ router.get('/',getAllPosts)
 // router.use(auth) in case we apply authorization authentication on all methods
 
 
-router.get('/user',auth,myPosts)
+
 
 
 

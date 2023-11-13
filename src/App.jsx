@@ -30,7 +30,7 @@ import { AuthProvider } from "./contexts/authContext";
 import { useState } from "react";
 import HomeNav from "./pages/home/home-nav";
 import ExploreNav from "./pages/explore/explore-nav";
-
+import Protected from "./components/protected/protected";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,25 +40,17 @@ const router = createBrowserRouter([
 
       {
         path: "/home",
-        element: <HomeNav />,
+        element: <Protected><HomeNav /></Protected>,
         children: [
           { index: true, element: <Home /> },
           { path: "followings", element: <Followings /> },
         ],
       },
 
-      {
-        path: "/home",
-        element: <HomeNav />,
-        children: [
-          { index: true, element: <Home /> },
-          { path: "followings", element: <Followings /> },
-        ],
-      },
 
       {
         path: "/explore",
-        element: <ExploreNav />,
+        element: <Protected><ExploreNav /></Protected>,
         children: [
           { index: true, element: <Explore /> },
           { path: "entertainment", element: <Entertainment /> },
@@ -68,10 +60,10 @@ const router = createBrowserRouter([
         ],
       },
       
-      { path: "lists", element: <Lists /> },
+      { path: "lists", element: <Protected><Lists /></Protected> },
       {
         path: "/notifications",
-        element: <Notification />,
+        element: <Protected><Notification /></Protected>,
         children: [
           { index: true, element: <All /> },
           { path: "mentions", element: <Mentions /> },
@@ -83,7 +75,7 @@ const router = createBrowserRouter([
       { path: "signIn", element: <SignIn /> },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <Protected><Profile /></Protected>,
         children: [
           { index: true, element: <ProfilePosts /> },
           { path: "replies", element: <ProfileReplies /> },
@@ -92,7 +84,7 @@ const router = createBrowserRouter([
           { path: "likes", element: <ProfileLikes /> },
         ],
       },
-      { path: "communities", element: <Communities /> },
+      { path: "communities", element: <Protected><Communities /></Protected> },
       { path: "*", element: <NotFound /> }, //wildCard
     ],
   },

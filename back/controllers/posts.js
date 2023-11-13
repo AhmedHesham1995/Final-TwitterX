@@ -166,20 +166,10 @@ const removeReply = async (req, res) => {
 
 
 
-const myPosts = async (req, res)=> {
-    try {
-      // Get the user ID from the authentication middleware
-      const userId = req.user.id;
+
   
-      // Fetch posts for the user
-      const posts = await postsModel.find({ user: userId });
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply};
   
-      res.json(posts);
-    } catch (error) {
-      console.error('Error fetching user posts:', error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  }
 
 
 
@@ -188,7 +178,6 @@ const myPosts = async (req, res)=> {
 
 
 
-module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,myPosts };
 
 
 
