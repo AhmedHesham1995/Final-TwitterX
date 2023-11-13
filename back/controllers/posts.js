@@ -14,6 +14,28 @@ const getAllPosts = async (req, res) => {
     }
 }
 
+// const addPost = async (req, res) => {
+//     const post = req.body;
+//     post.userId = req.id; // It knows the id from the last middleware; no need to add userId to create a Post by a specific user
+
+//     try {
+//         // Create a new post
+//         const newPost = new postsModel({
+//             title: post.title,
+//             userId: post.userId,
+//             replies: post.replies || [], 
+//         });
+
+//         // Save the new post 
+//         await newPost.save();
+
+//         res.status(201).json({ message: "Added successfully", data: newPost });
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// }
+
+
 const addPost = async (req, res) => {
     const post = req.body;
     post.userId = req.id; // It knows the id from the last middleware; no need to add userId to create a Post by a specific user
@@ -23,10 +45,11 @@ const addPost = async (req, res) => {
         const newPost = new postsModel({
             title: post.title,
             userId: post.userId,
-            replies: post.replies || [], 
+            userProfilePicture: post.userProfilePicture,
+            replies: post.replies || [],
         });
 
-        // Save the new post 
+        // Save the new post
         await newPost.save();
 
         res.status(201).json({ message: "Added successfully", data: newPost });
@@ -34,6 +57,7 @@ const addPost = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 }
+
 
 const getOnePost = async (req, res) => {
     let postId = req.params.id;
@@ -140,7 +164,31 @@ const removeReply = async (req, res) => {
     }
 }
 
-module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply };
+
+
+const myPosts = async (req, res)=> {
+    try {
+      // Get the user ID from the authentication middleware
+      const userId = req.user.id;
+  
+      // Fetch posts for the user
+      const posts = await postsModel.find({ user: userId });
+  
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching user posts:', error.message);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+
+
+
+  
+  
+
+
+
+module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,myPosts };
 
 
 

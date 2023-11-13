@@ -3,7 +3,7 @@ const express=require('express')
 var router=express.Router()
 const {auth}=require('../middlewares/auth')
 
-var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply}=require('../controllers/posts')
+var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply,myPosts}=require('../controllers/posts')
 
 //posts (ahmed hesham)
 router.get('/',getAllPosts)
@@ -12,24 +12,28 @@ router.get('/',getAllPosts)
 // router.use(auth) in case we apply authorization authentication on all methods
 
 
-router.post('/',auth,addPost)
+router.get('/user',auth,myPosts)
+
+
+
+router.post('/',addPost)
 
 
 router.get('/:id',getOnePost)
 
 
-router.patch('/:id',auth,updatePost)
+router.patch('/:id',updatePost)
 
 
 router.delete('/:id',auth,deletePost)
 
 
 //replies (essam)
-router.put('/',auth, addReply)
+router.put('/', addReply)
 
-router.patch('/',auth, editReply)
+router.patch('/', editReply)
 
-router.delete('/',auth, removeReply)
+router.delete('/',removeReply)
 
 
 module.exports=router
