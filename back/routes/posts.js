@@ -15,7 +15,6 @@ router.get('/',getAllPosts)
 
 
 
-
 router.post('/',addPost)
 
 
@@ -25,7 +24,7 @@ router.get('/:id',getOnePost)
 router.patch('/:id',updatePost)
 
 
-router.delete('/:id',auth,deletePost)
+router.delete('/:id',deletePost)
 
 
 //replies (essam)
