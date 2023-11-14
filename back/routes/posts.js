@@ -15,6 +15,7 @@ router.get('/',getAllPosts)
 
 
 
+
 router.post('/',addPost)
 
 
