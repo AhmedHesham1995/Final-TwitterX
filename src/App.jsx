@@ -31,6 +31,9 @@ import { useState } from "react";
 import HomeNav from "./pages/home/home-nav";
 import ExploreNav from "./pages/explore/explore-nav";
 import Protected from "./components/protected/protected";
+import { Provider } from "react-redux";
+import {store } from "./store/store";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -97,7 +100,8 @@ function App() {
 
   return (
     <AuthProvider value={{isLogin,setLogin}}>
-      <RouterProvider router={router} />
+     <Provider store={store}><RouterProvider router={router} /></Provider>
+      
     </AuthProvider>
   );
 }
