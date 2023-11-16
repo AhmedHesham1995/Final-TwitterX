@@ -29,40 +29,39 @@ const addUser=async(req,res)=>{
 const getOneUser=async(req,res)=>{
     let userId=req.params.id
     try{
-        let wanted=await usersModel.find({_id:userId})
-        if(wanted) res.status(200).json(wanted)
-        else res.status(404).json({message: "Not exist"})
+        let wanted=await usersModel.findOne({_id:userId})
+        console.log(wanted);
+        res.status(200).json({message:"s",data:wanted})
     }
     catch(err){
-        res.json({message: message.err})
+        res.json({message: err.message})
     }
 }
 
-const updateUser=async(req,res)=>{
-    var user=req.body
-    let userId=req.params.id
-    // let newEmail=req.body.email
-    // let newPass=req.body.password
-    // let newUser=req.body.username
-    // let newFirstName=req.body.firstName
-    // let newLastName=req.body.lastName
+const updateUser = async (req, res) => {
+    const { name, profilePicture, profileCover, location, bio, birthDate } = req.body;
+    const userId = req.params.id;
 
-    let{username,email,firstName,lastName,password}=user
-    try{
-        const queryRes=await usersModel.updateOne({_id:userId},{email,password,username,firstName,lastName})
-        
+    try {
+        const updatedUser = await usersModel.findOneAndUpdate(
+            { _id: userId },
+            { name, profilePicture, profileCover, location, bio, birthDate },
+            { new: true }
+        );
 
-        console.log(queryRes);
-        res.status(200).json({message: "edited success",data:user})
+        if (updatedUser.nModified === 0) {
+            return res.status(404).json({ msg: 'User not found or no changes applied' });
+        }
+
+        res.json({ msg: 'Profile edited successfully', data: { name, profilePicture, profileCover, location, bio, birthDate } });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
     }
-    catch(err){
-        res.status(500).json({message: err.message})
-    }
-}
+};
 
 
 
-  
 
 const deleteUser=async(req,res)=>{
     let userId=req.params.id
@@ -114,8 +113,8 @@ async function login(req,res){
 
 
     //generate token
-    const token=jwt.sign({id:user._id,name:user.username},process.env.SECRET,{expiresIn:"1h"})
-    res.status(200).json({token:token})
+    const token=jwt.sign({id:user._id,name:user.username},process.env.SECRET)
+    res.status(200).json({token:token, id:user._id})
 }
 
 module.exports={getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser}

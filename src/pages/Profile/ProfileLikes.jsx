@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromLikes } from '../../store/slices/homeLikes';
+import { removeFromLikes } from '../../redux/slices/homeLikes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 

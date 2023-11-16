@@ -206,9 +206,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToLikes, removeFromLikes } from '../../store/slices/homeLikes';
+import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
 import h from '../../assets/h.jpg';
-import { setPosts as setPostsAction } from '../../store/slices/postsSlice';
+import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
 
 const Home = () => {
   const [newPost, setNewPost] = useState('');
