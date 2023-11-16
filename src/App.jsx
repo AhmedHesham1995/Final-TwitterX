@@ -27,12 +27,14 @@ import Trending from "./pages/explore/trending";
 import News from "./pages/explore/news";
 import Sports from "./pages/explore/sports";
 import { AuthProvider } from "./contexts/authContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeNav from "./pages/home/home-nav";
 import ExploreNav from "./pages/explore/explore-nav";
 import Protected from "./components/protected/protected";
-import { Provider } from "react-redux";
-import {store } from "./store/store";
+import { Provider, useSelector } from "react-redux";
+import store from './redux/store'
+import EditProfile from "./pages/Profile/EditProfile/EditProfile";
+
 
 const router = createBrowserRouter([
   {
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
           { path: "sports", element: <Sports /> },
         ],
       },
-      
+
       { path: "lists", element: <Protected><Lists /></Protected> },
       {
         path: "/notifications",
@@ -76,6 +78,7 @@ const router = createBrowserRouter([
       { path: "join", element: <Join /> },
       { path: "signUp", element: <SignUp /> },
       { path: "signIn", element: <SignIn /> },
+      { path: "editProfile", element: <EditProfile /> },
       {
         path: "/profile",
         element: <Protected><Profile /></Protected>,
@@ -95,14 +98,28 @@ const router = createBrowserRouter([
 
 function App() {
 
+  const user = useSelector(data => data.user.userData)
+  const [isLogin, setLogin] = useState((localStorage.getItem('token')) ? true : false)
 
-  const [isLogin,setLogin]=useState((localStorage.getItem('token'))?true:false)
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
-    <AuthProvider value={{isLogin,setLogin}}>
-     <Provider store={store}><RouterProvider router={router} /></Provider>
-      
-    </AuthProvider>
+    // <AuthProvider value={{isLogin,setLogin}}>
+    //  <Provider store={store}><RouterProvider router={router} /></Provider>
+
+    // </AuthProvider>
+
+    <Provider store={store}>
+      <AuthProvider value={{ isLogin, setLogin }}>
+        <RouterProvider router={router} >
+          <Profile />
+          <EditProfile />
+        </RouterProvider>
+      </AuthProvider>
+    </Provider>
+
   );
 }
 
