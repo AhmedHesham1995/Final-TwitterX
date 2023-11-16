@@ -20,7 +20,7 @@ router.post('/signup',addUser)
 router.get('/:id',getOneUser)
 
 
-router.patch('/:id',auth,updateUser)
+router.patch('/editprofile/:id',updateUser)
 
 
 router.delete('/:id',auth,authAdmin,deleteUser)
