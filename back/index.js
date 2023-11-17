@@ -7,6 +7,7 @@ const usersRoutes = require("./routes/users");
 const messagesRoutes = require("./routes/messages");
 const notificationsRoutes = require("./routes/notification");
 
+
 app.use(
   cors({
     origin: "*",
@@ -20,6 +21,8 @@ app.use("/posts", postsRoutes);
 app.use("/users", usersRoutes);
 app.use("/messages", messagesRoutes);
 app.use("/notifications", notificationsRoutes);
+app.use("/conversation", ConversationRoutes);
+
 
 //not found middleware
 app.use("*", (req, res, next) => {

@@ -211,10 +211,10 @@
 
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+// import Swal from 'sweetalert2';
+// import withReactContent from 'sweetalert2-react-content';
 import { register } from '../services/auth';
-const MySwal = withReactContent(Swal);
+// const MySwal = withReactContent(Swal);
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -286,22 +286,22 @@ const SignUp = () => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     if (errors.nameError || errors.emailError || errors.passwordError || errors.usernameError) {
-      MySwal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        text: 'Please correct the form errors.',
-      });
+      // MySwal.fire({
+      //   icon: 'error',
+      //   title: 'Validation Error',
+      //   text: 'Please correct the form errors.',
+      // });
     } else {
       try {
         const res = await register(user);
         console.log(res);
         navigate('/signIn');
       } catch (err) {
-        MySwal.fire({
-          icon: 'error',
-          title: 'Something went wrong',
-          text: 'Please correct the form errors.',
-        });
+        // MySwal.fire({
+        //   icon: 'error',
+        //   title: 'Something went wrong',
+        //   text: 'Please correct the form errors.',
+        // });
       }
     }
   };

@@ -4,10 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { login } from '../services/auth';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-const MySwal = withReactContent(Swal);
+// import Swal from 'sweetalert2';
+// import withReactContent from 'sweetalert2-react-content';
+// const MySwal = withReactContent(Swal);
 import { authContext } from '../contexts/authContext';
+import { useDispatch } from 'react-redux';
 
 
 const SignIn = () => {
@@ -73,27 +74,28 @@ const {setLogin}=useContext(authContext)
          if(errors.emailError||errors.passwordError){
             // toast.error("Validation Error")
             console.log('error');
-            MySwal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Please correct the form errors.',
-              });
+            // MySwal.fire({
+            //     icon: 'error',
+            //     title: 'Validation Error',
+            //     text: 'Please correct the form errors.',
+            //   });
         }
         else{
             try{
                 const res = await login(user)
                 console.log(res);
                 localStorage.setItem("token",res.data.token)
+                localStorage.setItem("ID", res.data.id)
                 setLogin(true)
                 navigate('/home')
                 
             }
             catch(err){
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'something went wrong',
-                    text: 'Please correct the form errors.',
-                  });
+                // MySwal.fire({
+                //     icon: 'error',
+                //     title: 'something went wrong',
+                //     text: 'Please correct the form errors.',
+                //   });
             }
 
     }}

@@ -74,6 +74,17 @@ const deleteMessageById = async (req, res) => {
   }
 };
 
+// Controller function to get messages for a specific conversation
+const getMessagesByConversationId = async (req, res) => {
+  try {
+    const message = await MessageModel.find({
+      conversationId: req.params.conversationId,
+    });
+    res.status(200).json(message)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
 
 
 module.exports = {
@@ -81,5 +92,6 @@ module.exports = {
   getAllMessages,
   getMessageById,
   updateMessageById,
-  deleteMessageById
+  deleteMessageById,
+  getMessagesByConversationId
 };
