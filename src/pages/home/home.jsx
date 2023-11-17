@@ -454,35 +454,35 @@ import { useNavigate } from 'react-router-dom';
 import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
-import h from '../../assets/h.jpg';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
 
 const Home = () => {
   const [newPost, setNewPost] = useState('');
-  const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [replies, setReplies] = useState([]);
-
   const navigate = useNavigate();
 
-  const fetchPosts = async () => {
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts.posts); 
+  const loved = useSelector((state) => state.homeLikes);
+
+  const fetchAndSetPosts = async () => {
     try {
       const response = await axios.get('http://localhost:4005/posts');
-      console.log(response.data);
-      setPosts(response.data.reverse());
+      dispatch(setPostsAction(response.data.reverse()));
     } catch (error) {
-      console.error('Error', error.message);
+      console.error('Error fetching posts:', error);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchAndSetPosts();
   }, []);
 
   const fetchReplies = async (postId) => {
     try {
       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
-      setReplies(response.data.replies); 
+      setReplies(response.data.replies);
     } catch (error) {
       console.error('Error fetching replies:', error);
     }
@@ -495,7 +495,7 @@ const Home = () => {
       });
 
       setNewPost('');
-      fetchPosts();
+      fetchAndSetPosts();
     } catch (error) {
       console.error('Error', error.message);
     }
@@ -504,7 +504,7 @@ const Home = () => {
   const handleDeletePost = async (postId) => {
     try {
       await axios.delete(`http://localhost:4005/posts/${postId}`);
-      fetchPosts();
+      fetchAndSetPosts();
     } catch (error) {
       console.error('Error', error.message);
     }
@@ -513,6 +513,16 @@ const Home = () => {
   const handleCommentClick = (postId) => {
     setSelectedPost(postId);
     fetchReplies(postId);
+  };
+
+  const isLoved = (postId) => loved.includes(postId);
+
+  const handleLoved = (postId) => {
+    if (!isLoved(postId)) {
+      dispatch(addToLikes(postId));
+    } else {
+      dispatch(removeFromLikes(postId));
+    }
   };
 
   return (
@@ -582,7 +592,11 @@ const Home = () => {
               <FontAwesomeIcon icon={faRetweet} />
             </span>
             <span className="center__post__bottom-span">
-              <FontAwesomeIcon icon={faHeart} />
+            <FontAwesomeIcon
+                onClick={() => handleLoved(post._id)}
+                style={{ color: isLoved(post._id) ? 'red' : 'gray' }}
+                icon={faHeart}
+              />
             </span>
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faChartBar} />
@@ -607,3 +621,11 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+
+
+
+/*love*/
