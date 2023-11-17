@@ -265,11 +265,28 @@ import {
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useContext } from "react";
 import { authContext } from "../../../contexts/authContext";
+import { useState } from "react";
+import axios from "axios";
 const Navbar = () => {
 
   const {isLogin,setLogin} = useContext(authContext)
 
   const navigate=useNavigate()
+
+  const [userData, setUserData] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+      var userData=response.data.data;
+      console.log(userData);
+      setUserData(userData)
+      console.log("user");
+    } catch (error) {
+      console.error('Error get user:', error);
+    }
+  };
+  getUser()
 
   return (
     <div className="navbar home">
@@ -393,11 +410,11 @@ const Navbar = () => {
                         navigate('/signIn')
                    }}  className="home__nav__profile">
           <div className="home__nav__profile__img">
-            <img src={h} alt="" />
+            <img src={userData && userData.profilePicture} alt="" />
           </div>
           <div className="home__nav__profile__name">
-            <div>Ahmed Hesham</div>
-            <span>@ahmed10_hesh...</span>
+            <div>{userData && userData.name}</div>
+            <span>{userData && userData.username}</span>
           </div>
           <div className="home__nav__profile__svg">
             <i className="fa-solid fa-ellipsis svg"></i>

@@ -460,6 +460,8 @@ const Home = () => {
   const [newPost, setNewPost] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
   const [replies, setReplies] = useState([]);
+
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -468,7 +470,9 @@ const Home = () => {
 
   const fetchAndSetPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:4005/posts');
+      const response = await axios.get(`http://localhost:4005/posts`);
+      // const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}/posts`);
+      console.log(localStorage.getItem("ID"));
       dispatch(setPostsAction(response.data.reverse()));
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -478,6 +482,21 @@ const Home = () => {
   useEffect(() => {
     fetchAndSetPosts();
   }, []);
+
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+      var userData=response.data.data;
+      console.log(userData);
+      setUserData(userData)
+      console.log("user");
+    } catch (error) {
+      console.error('Error get user:', error);
+    }
+  };
+
+  getUser()
 
   const fetchReplies = async (postId) => {
     try {
@@ -529,7 +548,7 @@ const Home = () => {
     <section>
       <div className="center__happen">
         <div className="center__happen__top">
-          <img src={h} alt="" />
+        <img src={userData && userData.profilePicture} alt="" />
           <input
             type="text"
             placeholder="What's happening?!"

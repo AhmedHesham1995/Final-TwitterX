@@ -14,6 +14,8 @@ const ProfilePosts = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get("http://localhost:4005/posts");
+      // const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}/posts`);
+
       setPosts(response.data.reverse());
     } catch (error) {
       console.error("Error fetching posts:", error.message);
