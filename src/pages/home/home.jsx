@@ -454,7 +454,6 @@ import { useNavigate } from 'react-router-dom';
 import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
-import h from '../../assets/h.jpg';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
 
 const Home = () => {
@@ -464,7 +463,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts); 
+  const posts = useSelector((state) => state.posts.posts); 
   const loved = useSelector((state) => state.homeLikes);
 
   const fetchAndSetPosts = async () => {
