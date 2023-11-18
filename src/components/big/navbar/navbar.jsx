@@ -279,9 +279,9 @@ const Navbar = () => {
     try {
       const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
       var userData=response.data.data;
-      console.log(userData);
+      // console.log(userData);
       setUserData(userData)
-      console.log("user");
+      // console.log("user");
     } catch (error) {
       console.error('Error get user:', error);
     }

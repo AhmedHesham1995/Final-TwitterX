@@ -16,7 +16,7 @@ router.get('/',getAllPosts)
 
 
 
-router.post('/',addPost)
+router.post('/',auth,addPost)
 
 
 router.get('/:id',getOnePost)

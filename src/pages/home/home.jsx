@@ -455,6 +455,7 @@ import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortaweso
 import { useDispatch, useSelector } from 'react-redux';
 import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
+import { formatDistanceToNow } from 'date-fns';
 
 const Home = () => {
   const [newPost, setNewPost] = useState('');
@@ -465,16 +466,22 @@ const Home = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.posts); 
+  const Allposts = useSelector((state) => state.posts.posts); 
+
+
+  const posts = Allposts.filter((p) => p.userId && p.userId._id !== localStorage.getItem("ID"));
+
+  
+
   const loved = useSelector((state) => state.homeLikes);
 
   const getUser = async () => {
     try {
       const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
       var userData=response.data.data;
-      console.log(userData);
+      // console.log(userData);
       setUserData(userData)
-      console.log("user");
+      // console.log("user");
     } catch (error) {
       console.error('Error get user:', error);
     }
@@ -509,18 +516,42 @@ const Home = () => {
     }
   };
 
+  // const handlePost = async () => {
+  //   try {
+  //     await axios.post('http://localhost:4005/posts', {
+  //       title: newPost,
+  //     });
+
+  //     setNewPost('');
+  //     fetchAndSetPosts();
+  //   } catch (error) {
+  //     console.error('Error', error.message);
+  //   }
+  // };
+
+
   const handlePost = async () => {
     try {
+      // Get the JWT token from your authentication system (e.g., localStorage)
+      const token = localStorage.getItem('token'); // Replace with your actual token retrieval method
+  
+      // Make the POST request with the JWT token in the Authorization header
       await axios.post('http://localhost:4005/posts', {
         title: newPost,
+      }, {
+        headers: {
+          Authorization: token,
+        },
       });
-
+  
       setNewPost('');
       fetchAndSetPosts();
     } catch (error) {
       console.error('Error', error.message);
+      // Handle the error, e.g., display an error message to the user
     }
   };
+  
 
   const handleDeletePost = async (postId) => {
     try {
@@ -545,6 +576,15 @@ const Home = () => {
       dispatch(removeFromLikes(postId));
     }
   };
+
+
+
+
+  // const formatDate = (dateString) => {
+  //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+  //   const formattedDate = new Date(dateString).toLocaleString('en-US', options);
+  //   return formattedDate;
+  // };
 
   return (
     <section>
@@ -588,10 +628,10 @@ const Home = () => {
             <div className="center__post__header-left">
               <img src={post.userProfilePicture} alt="" />
               <span className="center__post__header-left__name">
-                Ahmed
+                {post.userId && post.userId.name}
               </span>
               <span className="center__post__header-left__user">
-                @ahmed10 . 27 june
+                @{post.userId && post.userId.username} . {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
               </span>
             </div>
             <div className="center__post__header-right">
