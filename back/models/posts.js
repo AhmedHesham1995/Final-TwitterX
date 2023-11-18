@@ -40,7 +40,7 @@ const { Schema } = mongoose;
 const postsSchema = mongoose.Schema({
     title: {
         type: String,
-        minLength: 5,
+        minLength: 1,
         maxLength: 1000,
         required: true
     },

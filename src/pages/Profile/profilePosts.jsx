@@ -11,6 +11,22 @@ const ProfilePosts = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [replies, setReplies] = useState([]);
 
+  const [userData, setUserData] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+      var userData=response.data.data;
+      console.log(userData);
+      setUserData(userData)
+      console.log("user");
+    } catch (error) {
+      console.error('Error get user:', error);
+    }
+  };
+
+  getUser()
+
   const fetchPosts = async () => {
     try {
       const response = await axios.get("http://localhost:4005/posts");
@@ -59,10 +75,10 @@ const ProfilePosts = () => {
         <div className="center__post" key={post._id}>
           <div className="center__post__header">
             <div className="center__post__header-left">
-              <img src={post.userProfilePicture} alt="" />
-              <span className="center__post__header-left__name">Ahmed</span>
+              <img src={userData && userData.profilePicture} alt="" />  
+              <span className="center__post__header-left__name">{userData && userData.name}</span>
               <span className="center__post__header-left__user">
-                @ahmed10 . 27 june
+                @{userData && userData.username} . 27 june
               </span>
             </div>
             <div className="center__post__header-right">

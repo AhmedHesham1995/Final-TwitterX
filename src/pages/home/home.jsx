@@ -468,6 +468,21 @@ const Home = () => {
   const posts = useSelector((state) => state.posts.posts); 
   const loved = useSelector((state) => state.homeLikes);
 
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+      var userData=response.data.data;
+      console.log(userData);
+      setUserData(userData)
+      console.log("user");
+    } catch (error) {
+      console.error('Error get user:', error);
+    }
+  };
+
+  getUser()
+
+
   const fetchAndSetPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:4005/posts`);
@@ -484,20 +499,7 @@ const Home = () => {
   }, []);
 
 
-  const getUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
-      var userData=response.data.data;
-      console.log(userData);
-      setUserData(userData)
-      console.log("user");
-    } catch (error) {
-      console.error('Error get user:', error);
-    }
-  };
-
-  getUser()
-
+ 
   const fetchReplies = async (postId) => {
     try {
       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
