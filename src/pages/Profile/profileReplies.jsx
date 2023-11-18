@@ -24,11 +24,6 @@ const ProfileReplies = () => {
       }
     };
 
-
-    
-    
-    
-
     fetchReplies();
   }, []);
 
@@ -44,7 +39,20 @@ const ProfileReplies = () => {
   };
 
 
-  
+  const [userData, setUserData] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+      var userData=response.data.data;
+      console.log(userData);
+      setUserData(userData)
+      console.log("user");
+    } catch (error) {
+      console.error('Error get user:', error);
+    }
+  };
+  getUser()
   
   
 
@@ -54,12 +62,12 @@ const ProfileReplies = () => {
         <div key={reply._id} className="center__post">
           <div className="center__post__header">
             <div className="center__post__header-left">
-              <img src={h} alt="" />
+              <img src={userData && userData.profilePicture} alt="" />
               <span className="center__post__header-left__name">
-                Ahmed
+                {userData && userData.name}
               </span>
               <span className="center__post__header-left__user">
-                @ahmed10 . 27 june
+                @{userData && userData.username} . 27 june
               </span>
             </div>
             <div className="center__post__header-right">
