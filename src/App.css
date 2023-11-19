@@ -352,6 +352,7 @@
   border: 1px solid black;
   font-size: 20px;
   color: #fff;
+  margin-left: 20px;
 }
 
 .center__happen__top input:focus {
@@ -428,11 +429,13 @@
 .center__post__header-left__name {
   font-weight: bold;
   color: white;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .center__post__header-left__user {
-  color: #5a5c5c
+  color: #5a5c5c;
+  margin-left: 5px;
+
 }
 
 .center__post__header-left img {
