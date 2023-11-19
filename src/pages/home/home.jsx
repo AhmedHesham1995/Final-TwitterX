@@ -692,6 +692,243 @@
 
 
 
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faHeart, faChartBar, faArrowUp, faComment, faRetweet } from '@fortawesome/free-solid-svg-icons';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
+// import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
+// import { useNavigate } from 'react-router-dom';
+// import { formatDistanceToNow } from 'date-fns';
+
+// const Home = () => {
+//   const [newPost, setNewPost] = useState('');
+//   const [selectedPost, setSelectedPost] = useState(null);
+//   const [replies, setReplies] = useState([]);
+//   const [replyText, setReplyText] = useState('');
+
+//   const [userData, setUserData] = useState(null);
+//   const navigate = useNavigate();
+
+//   const dispatch = useDispatch();
+//   const Allposts = useSelector((state) => state.posts.posts);
+
+//   const posts = Allposts.filter((p) => p.userId && p.userId._id !== localStorage.getItem("ID"));
+
+//   const loved = useSelector((state) => state.homeLikes);
+
+//   const getUser = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+//       var userData = response.data.data;
+//       setUserData(userData);
+//     } catch (error) {
+//       console.error('Error get user:', error);
+//     }
+//   };
+
+//   getUser();
+
+//   const fetchAndSetPosts = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts`);
+//       dispatch(setPostsAction(response.data.reverse()));
+//     } catch (error) {
+//       console.error('Error fetching posts:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchAndSetPosts();
+//   }, []);
+
+//   const fetchReplies = async (postId) => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+//       setReplies(response.data.replies);
+//     } catch (error) {
+//       console.error('Error fetching replies:', error);
+//     }
+//   };
+
+//   const handlePost = async () => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.post('http://localhost:4005/posts', {
+//         title: newPost,
+//       }, {
+//         headers: {
+//           Authorization: token,
+//         },
+//       });
+
+//       setNewPost('');
+//       fetchAndSetPosts();
+//     } catch (error) {
+//       console.error('Error', error.message);
+//     }
+//   };
+
+//   const handleDeletePost = async (postId) => {
+//     try {
+//       await axios.delete(`http://localhost:4005/posts/${postId}`);
+//       fetchAndSetPosts();
+//     } catch (error) {
+//       console.error('Error', error.message);
+//     }
+//   };
+
+//   const handleCommentClick = (postId) => {
+//     setSelectedPost(postId);
+//     fetchReplies(postId);
+//   };
+
+//   const isLoved = (postId) => loved.includes(postId);
+
+//   const handleLoved = (postId) => {
+//     if (!isLoved(postId)) {
+//       dispatch(addToLikes(postId));
+//     } else {
+//       dispatch(removeFromLikes(postId));
+//     }
+//   };
+
+//   const handleReply = async () => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.put(
+//         `http://localhost:4005/posts/`, // Assuming this is the correct endpoint for adding a reply
+//         { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
+//         {
+//           headers: {
+//             Authorization: token,
+//           },
+//         }
+//       );
+//       setReplyText('');
+//       fetchReplies(selectedPost);
+//     } catch (error) {
+//       console.error('Error replying to post:', error.message);
+//     }
+//   };
+  
+
+//   return (
+//     <section>
+//       <div className="center__happen">
+//         <div className="center__happen__top">
+//           <img src={userData && userData.profilePicture} alt="" />
+//           <input
+//             type="text"
+//             placeholder="What's happening?!"
+//             value={newPost}
+//             onChange={(e) => setNewPost(e.target.value)}
+//           />
+//         </div>
+//         <div className="center__happen__bottom">
+//           <div className="center__happen__bottom-icons">
+//             <span>
+//               <FontAwesomeIcon icon={faImage} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faSquare} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faSmile} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faCalendar} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faLocationDot} className="happenIcon" />
+//             </span>
+//           </div>
+//           <button className="center__happen__bottom-btn" onClick={handlePost}>
+//             Post
+//           </button>
+//         </div>
+//       </div>
+
+//       {posts.map((post) => (
+//         <div className="center__post" key={post._id}>
+//           <div className="center__post__header">
+//             <div className="center__post__header-left">
+//               <img src={post.userProfilePicture} alt="" />
+//               <span className="center__post__header-left__name">
+//                 {post.userId && post.userId.name}
+//               </span>
+//               <span className="center__post__header-left__user">
+//                 @{post.userId && post.userId.username} . {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+//               </span>
+//             </div>
+//             <div className="center__post__header-right">
+//               <span>
+//                 <FontAwesomeIcon
+//                   icon={faEllipsisV}
+//                   className="ellipsis-icon"
+//                   onClick={() => handleDeletePost(post._id)}
+//                 />
+//               </span>
+//             </div>
+//           </div>
+//           <div className="center__post__body">
+//             <span className="center__post__body__content">{post.title}</span>
+//           </div>
+//           <div className="center__post__bottom">
+//             <span className="center__post__bottom-span" onClick={() => handleCommentClick(post._id)}>
+//               <FontAwesomeIcon icon={faComment} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faRetweet} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon
+//                 onClick={() => handleLoved(post._id)}
+//                 style={{ color: isLoved(post._id) ? 'red' : 'gray' }}
+//                 icon={faHeart}
+//               />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faChartBar} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faArrowUp} />
+//             </span>
+//           </div>
+//           {selectedPost === post._id && (
+//             <div>
+//               <div>
+//                 <input
+//                   type="text"
+//                   placeholder="Add a reply..."
+//                   value={replyText}
+//                   onChange={(e) => setReplyText(e.target.value)}
+//                 />
+//                 <button onClick={handleReply}>Reply</button>
+//               </div>
+//               {Array.isArray(replies) && replies.map((reply) => (
+//                 <div key={reply._id}>
+//                   <span>{reply.text}</span>
+//                 </div>
+//               ))}
+//             </div>
+//           )}
+//         </div>
+//       ))}
+//     </section>
+//   );
+// };
+
+// export default Home;
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -712,9 +949,14 @@ const Home = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const Allposts = useSelector((state) => state.posts.posts);
+  const allPosts = useSelector((state) => state.posts.posts);
 
-  const posts = Allposts.filter((p) => p.userId && p.userId._id !== localStorage.getItem("ID"));
+  const [randomOrder, setRandomOrder] = useState(null);
+
+  useEffect(() => {
+    const order = [...allPosts].sort(() => Math.random() - 0.5);
+    setRandomOrder(order);
+  }, [allPosts]);
 
   const loved = useSelector((state) => state.homeLikes);
 
@@ -798,7 +1040,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:4005/posts/`, // Assuming this is the correct endpoint for adding a reply
+        `http://localhost:4005/posts/`, 
         { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
         {
           headers: {
@@ -812,7 +1054,6 @@ const Home = () => {
       console.error('Error replying to post:', error.message);
     }
   };
-  
 
   return (
     <section>
@@ -850,7 +1091,7 @@ const Home = () => {
         </div>
       </div>
 
-      {posts.map((post) => (
+      {randomOrder && randomOrder.map((post) => (
         <div className="center__post" key={post._id}>
           <div className="center__post__header">
             <div className="center__post__header-left">
