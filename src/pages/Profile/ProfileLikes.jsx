@@ -35,10 +35,10 @@ const ProfileLikes = () => {
                 <div className="center__post__header-left">
                   <img src={post.userProfilePicture} alt="" />
                   <span className="center__post__header-left__name">
-                    Ahmed
+                    {post.userId && post.userId.name}
                   </span>
                   <span className="center__post__header-left__user">
-                    @ahmed . 20Jun
+                    @{post.userId && post.userId.username}
                   </span>
                 </div>
                 <div className="center__post__header-right">
