@@ -427,6 +427,8 @@
 
 .center__post__header-left__name {
   font-weight: bold;
+  color: white;
+  margin-left: 5px;
 }
 
 .center__post__header-left__user {
@@ -443,11 +445,16 @@
   color: #5a5c5c;
 }
 
+.center__post__header-right span{
+  cursor: pointer;
+}
+
 /* .center__post__body{
 
 } */
 .center__post__body__content {
   margin-left: 50px;
+  color: white;
 }
 
 
