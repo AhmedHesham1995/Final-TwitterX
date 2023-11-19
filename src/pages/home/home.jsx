@@ -442,59 +442,297 @@
 
 
 
-import h from '../../assets/h.jpg';
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
+// import Premium from '../../components/small/premium';
+// import Posts from '../../components/small/posts';
+// import { useNavigate } from 'react-router-dom';
+// import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
+// import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
+// import { formatDistanceToNow } from 'date-fns';
+
+// const Home = () => {
+//   const [newPost, setNewPost] = useState('');
+//   const [selectedPost, setSelectedPost] = useState(null);
+//   const [replies, setReplies] = useState([]);
+
+//   const [userData, setUserData] = useState(null);
+//   const navigate = useNavigate();
+
+//   const dispatch = useDispatch();
+//   const Allposts = useSelector((state) => state.posts.posts); 
+
+
+//   const posts = Allposts.filter((p) => p.userId && p.userId._id !== localStorage.getItem("ID"));
+
+  
+
+//   const loved = useSelector((state) => state.homeLikes);
+
+//   const getUser = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
+//       var userData=response.data.data;
+//       // console.log(userData);
+//       setUserData(userData)
+//       // console.log("user");
+//     } catch (error) {
+//       console.error('Error get user:', error);
+//     }
+//   };
+
+//   getUser()
+
+
+//   const fetchAndSetPosts = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts`);
+//       // const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}/posts`);
+//       console.log(localStorage.getItem("ID"));
+//       dispatch(setPostsAction(response.data.reverse()));
+//     } catch (error) {
+//       console.error('Error fetching posts:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchAndSetPosts();
+//   }, []);
+
+
+ 
+//   const fetchReplies = async (postId) => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+//       setReplies(response.data.replies);
+//     } catch (error) {
+//       console.error('Error fetching replies:', error);
+//     }
+//   };
+
+//   // const handlePost = async () => {
+//   //   try {
+//   //     await axios.post('http://localhost:4005/posts', {
+//   //       title: newPost,
+//   //     });
+
+//   //     setNewPost('');
+//   //     fetchAndSetPosts();
+//   //   } catch (error) {
+//   //     console.error('Error', error.message);
+//   //   }
+//   // };
+
+
+//   const handlePost = async () => {
+//     try {
+//       // Get the JWT token from your authentication system (e.g., localStorage)
+//       const token = localStorage.getItem('token'); // Replace with your actual token retrieval method
+  
+//       // Make the POST request with the JWT token in the Authorization header
+//       await axios.post('http://localhost:4005/posts', {
+//         title: newPost,
+//       }, {
+//         headers: {
+//           Authorization: token,
+//         },
+//       });
+  
+//       setNewPost('');
+//       fetchAndSetPosts();
+//     } catch (error) {
+//       console.error('Error', error.message);
+//       // Handle the error, e.g., display an error message to the user
+//     }
+//   };
+  
+
+//   // const handleDeletePost = async (postId) => {
+//   //   try {
+//   //     await axios.delete(`http://localhost:4005/posts/${postId}`);
+//   //     fetchAndSetPosts();
+//   //   } catch (error) {
+//   //     console.error('Error', error.message);
+//   //   }
+//   // };
+
+//   const handleCommentClick = (postId) => {
+//     setSelectedPost(postId);
+//     fetchReplies(postId);
+//   };
+
+//   const isLoved = (postId) => loved.includes(postId);
+
+//   const handleLoved = (postId) => {
+//     if (!isLoved(postId)) {
+//       dispatch(addToLikes(postId));
+//     } else {
+//       dispatch(removeFromLikes(postId));
+//     }
+//   };
+
+
+
+
+//   // const formatDate = (dateString) => {
+//   //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+//   //   const formattedDate = new Date(dateString).toLocaleString('en-US', options);
+//   //   return formattedDate;
+//   // };
+
+//   return (
+//     <section>
+//       <div className="center__happen">
+//         <div className="center__happen__top">
+//         <img src={userData && userData.profilePicture} alt="" />
+//           <input
+//             type="text"
+//             placeholder="What's happening?!"
+//             value={newPost}
+//             onChange={(e) => setNewPost(e.target.value)}
+//           />
+//         </div>
+//         <div className="center__happen__bottom">
+//           <div className="center__happen__bottom-icons">
+//             <span>
+//               <FontAwesomeIcon icon={faImage} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faSquare} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faSmile} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faCalendar} className="happenIcon" />
+//             </span>
+//             <span>
+//               <FontAwesomeIcon icon={faLocationDot} className="happenIcon" />
+//             </span>
+//           </div>
+//           <button className="center__happen__bottom-btn" onClick={handlePost}>
+//             Post
+//           </button>
+//         </div>
+//       </div>
+
+//       {posts.map((post) => (
+//         <div className="center__post" key={post._id}>
+//           <div className="center__post__header">
+//             <div className="center__post__header-left">
+//               <img src={post.userProfilePicture} alt="" />
+//               <span className="center__post__header-left__name">
+//                 {post.userId && post.userId.name}
+//               </span>
+//               <span className="center__post__header-left__user">
+//                 @{post.userId && post.userId.username} . {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+//               </span>
+//             </div>
+//             <div className="center__post__header-right">
+//               <span>
+//                 <FontAwesomeIcon
+//                   icon={faEllipsisV}
+//                   className="ellipsis-icon"
+//                   // onClick={() => handleDeletePost(post._id)}
+//                 />
+//               </span>
+              
+//             </div>
+//           </div>
+//           <div className="center__post__body">
+//             <span className="center__post__body__content">{post.title}</span>
+//           </div>
+//           <div className="center__post__bottom">
+//             <span className="center__post__bottom-span" onClick={() => handleCommentClick(post._id)}>
+//               <FontAwesomeIcon icon={faComment} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faRetweet} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//             <FontAwesomeIcon
+//                 onClick={() => handleLoved(post._id)}
+//                 style={{ color: isLoved(post._id) ? 'red' : 'gray' }}
+//                 icon={faHeart}
+//               />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faChartBar} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faArrowUp} />
+//             </span>
+//           </div>
+//           {selectedPost === post._id && (
+//             <div>
+//               {Array.isArray(replies) && replies.map((reply) => (
+//                 <div key={reply._id}>
+//                   <span>{reply.text}</span>
+//                 </div>
+//               ))}
+//             </div>
+//           )}
+//         </div>
+//       ))}
+//     </section>
+//   );
+// };
+
+// export default Home;
+
+
+
+
+
+
+
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Premium from '../../components/small/premium';
-import Posts from '../../components/small/posts';
-import { useNavigate } from 'react-router-dom';
-import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faHeart, faChartBar, faArrowUp, faComment, faRetweet } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
+import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 
 const Home = () => {
   const [newPost, setNewPost] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
   const [replies, setReplies] = useState([]);
+  const [replyText, setReplyText] = useState('');
 
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const Allposts = useSelector((state) => state.posts.posts); 
-
+  const Allposts = useSelector((state) => state.posts.posts);
 
   const posts = Allposts.filter((p) => p.userId && p.userId._id !== localStorage.getItem("ID"));
-
-  
 
   const loved = useSelector((state) => state.homeLikes);
 
   const getUser = async () => {
     try {
       const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}`);
-      var userData=response.data.data;
-      // console.log(userData);
-      setUserData(userData)
-      // console.log("user");
+      var userData = response.data.data;
+      setUserData(userData);
     } catch (error) {
       console.error('Error get user:', error);
     }
   };
 
-  getUser()
-
+  getUser();
 
   const fetchAndSetPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:4005/posts`);
-      // const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem("ID")}/posts`);
-      console.log(localStorage.getItem("ID"));
       dispatch(setPostsAction(response.data.reverse()));
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -505,8 +743,6 @@ const Home = () => {
     fetchAndSetPosts();
   }, []);
 
-
- 
   const fetchReplies = async (postId) => {
     try {
       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
@@ -516,26 +752,9 @@ const Home = () => {
     }
   };
 
-  // const handlePost = async () => {
-  //   try {
-  //     await axios.post('http://localhost:4005/posts', {
-  //       title: newPost,
-  //     });
-
-  //     setNewPost('');
-  //     fetchAndSetPosts();
-  //   } catch (error) {
-  //     console.error('Error', error.message);
-  //   }
-  // };
-
-
   const handlePost = async () => {
     try {
-      // Get the JWT token from your authentication system (e.g., localStorage)
-      const token = localStorage.getItem('token'); // Replace with your actual token retrieval method
-  
-      // Make the POST request with the JWT token in the Authorization header
+      const token = localStorage.getItem('token');
       await axios.post('http://localhost:4005/posts', {
         title: newPost,
       }, {
@@ -543,15 +762,13 @@ const Home = () => {
           Authorization: token,
         },
       });
-  
+
       setNewPost('');
       fetchAndSetPosts();
     } catch (error) {
       console.error('Error', error.message);
-      // Handle the error, e.g., display an error message to the user
     }
   };
-  
 
   const handleDeletePost = async (postId) => {
     try {
@@ -577,20 +794,31 @@ const Home = () => {
     }
   };
 
-
-
-
-  // const formatDate = (dateString) => {
-  //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
-  //   const formattedDate = new Date(dateString).toLocaleString('en-US', options);
-  //   return formattedDate;
-  // };
+  const handleReply = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `http://localhost:4005/posts/`, // Assuming this is the correct endpoint for adding a reply
+        { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setReplyText('');
+      fetchReplies(selectedPost);
+    } catch (error) {
+      console.error('Error replying to post:', error.message);
+    }
+  };
+  
 
   return (
     <section>
       <div className="center__happen">
         <div className="center__happen__top">
-        <img src={userData && userData.profilePicture} alt="" />
+          <img src={userData && userData.profilePicture} alt="" />
           <input
             type="text"
             placeholder="What's happening?!"
@@ -635,11 +863,13 @@ const Home = () => {
               </span>
             </div>
             <div className="center__post__header-right">
-              <FontAwesomeIcon
-                icon={faEllipsisV}
-                className="ellipsis-icon"
-                onClick={() => handleDeletePost(post._id)}
-              />
+              <span>
+                <FontAwesomeIcon
+                  icon={faEllipsisV}
+                  className="ellipsis-icon"
+                  onClick={() => handleDeletePost(post._id)}
+                />
+              </span>
             </div>
           </div>
           <div className="center__post__body">
@@ -653,7 +883,7 @@ const Home = () => {
               <FontAwesomeIcon icon={faRetweet} />
             </span>
             <span className="center__post__bottom-span">
-            <FontAwesomeIcon
+              <FontAwesomeIcon
                 onClick={() => handleLoved(post._id)}
                 style={{ color: isLoved(post._id) ? 'red' : 'gray' }}
                 icon={faHeart}
@@ -668,6 +898,15 @@ const Home = () => {
           </div>
           {selectedPost === post._id && (
             <div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Add a reply..."
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                />
+                <button onClick={handleReply}>Reply</button>
+              </div>
               {Array.isArray(replies) && replies.map((reply) => (
                 <div key={reply._id}>
                   <span>{reply.text}</span>
@@ -682,4 +921,3 @@ const Home = () => {
 };
 
 export default Home;
-
