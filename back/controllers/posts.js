@@ -166,12 +166,38 @@ const removeReply = async (req, res) => {
 
 
 
+const toggleLike = async (req, res) => {
+    const { postId } = req.body;
+    const userId = req.id;
+
+    try {
+        const post = await postsModel.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        const isLiked = post.likes.some(like => like.userId.equals(userId));
+
+        if (isLiked) {
+            // Remove like
+            post.likes = post.likes.filter(like => !like.userId.equals(userId));
+        } else {
+            // Add like
+            post.likes.push({ userId });
+        }
+
+        const updatedPost = await post.save();
+        res.json(updatedPost);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
 
 
 
 
   
-  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply};
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike};
   
 
 

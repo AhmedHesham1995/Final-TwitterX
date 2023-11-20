@@ -315,11 +315,15 @@ const ProfilePosts = () => {
               </span>
             </div>
             <div className="center__post__header-right">
-              <FontAwesomeIcon
-                icon={faEllipsisV}
-                className="ellipsis-icon"
-                onClick={() => handleDeletePost(post._id)}
-              />
+              <span>
+                {/* <FontAwesomeIcon
+                  icon={faEllipsisV}
+                  className="ellipsis-icon"
+                  onClick={() => handleDeletePost(post._id)}
+                /> */}
+                <i onClick={() => handleDeletePost(post._id)} className="fas fa-ellipsis svg" ></i>
+                
+              </span>
             </div>
           </div>
           <div className="center__post__body">
