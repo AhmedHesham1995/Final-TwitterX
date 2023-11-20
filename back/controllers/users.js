@@ -94,6 +94,36 @@ const posts4specificUser=async(req,res)=>{
 
 
 
+
+
+
+// Fetch liked posts for a user
+const fetchLikedPosts = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await usersModel.findById(userId).populate('likedPosts');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const likedPosts = user.likedPosts.map(post => ({
+      _id: post._id,
+      title: post.title,
+      // other fields...
+    }));
+
+    res.json(likedPosts);
+  } catch (error) {
+    console.error('Error fetching liked posts:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
+
+
 //authentication
 async function login(req,res){
     const {email,password,role}=req.body
@@ -117,4 +147,4 @@ async function login(req,res){
     res.status(200).json({token:token, id:user._id})
 }
 
-module.exports={getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser}
+module.exports={getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser,fetchLikedPosts}

@@ -90,7 +90,7 @@ const usersSchema = mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: 'https://i.pinimg.com/564x/ed/1f/41/ed1f41959e7e9aa7fb0a18b76c6c2755.jpg' // Default profile picture URL
+        default: 'https://i.pinimg.com/564x/ed/1f/41/ed1f41959e7e9aa7fb0a18b76c6c2755.jpg' 
     },
     profileCover: {
         type: String,
@@ -102,6 +102,7 @@ const usersSchema = mongoose.Schema({
         unique: true,
         minLength: 3
     },
+    likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 
     location: {
         type: String,
