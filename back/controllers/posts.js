@@ -1,5 +1,10 @@
 const postsModel = require('../models/posts');
+const multer = require('multer');
+const fs = require('fs');
 
+// Define storage for uploaded images
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //posts (ahmed hesham)
 const getAllPosts = async (req, res) => {
@@ -36,27 +41,53 @@ const getAllPosts = async (req, res) => {
 // }
 
 
+// const addPost = async (req, res) => {
+//     const post = req.body;
+//     post.userId = req.id; // It knows the id from the last middleware; no need to add userId to create a Post by a specific user
+
+//     try {
+//         // Create a new post
+//         const newPost = new postsModel({
+//             title: post.title,
+//             userId: post.userId,
+//             userProfilePicture: post.userProfilePicture,
+//             replies: post.replies || [],
+//         });
+
+//         // Save the new post
+//         await newPost.save();
+
+//         res.status(201).json({ message: "Added successfully", data: newPost });
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// }
+
 const addPost = async (req, res) => {
-    const post = req.body;
-    post.userId = req.id; // It knows the id from the last middleware; no need to add userId to create a Post by a specific user
-
+    const { title, userProfilePicture, image, replies } = req.body;
+    const userId = req.id;
+  
     try {
-        // Create a new post
-        const newPost = new postsModel({
-            title: post.title,
-            userId: post.userId,
-            userProfilePicture: post.userProfilePicture,
-            replies: post.replies || [],
-        });
-
-        // Save the new post
-        await newPost.save();
-
-        res.status(201).json({ message: "Added successfully", data: newPost });
+      // Create a new post
+      const newPost = new postsModel({
+        title,
+        userId,
+        userProfilePicture,
+        image,
+        replies: replies || [],
+      });
+  
+      // Save the new post
+      await newPost.save();
+  
+      res.status(201).json({ message: "Added successfully", data: newPost });
     } catch (err) {
-        res.status(400).json({ message: err.message });
+      res.status(400).json({ message: err.message });
     }
-}
+  }
+  
+  // Add other controller functions as needed
+  
 
 
 const getOnePost = async (req, res) => {
@@ -193,11 +224,42 @@ const toggleLike = async (req, res) => {
     }
 }
 
+const toggleRepost = async (req, res) => {
+    const { postId } = req.body;
+    const userId = req.id;
+  
+    try {
+      const post = await postsModel.findById(postId);
+  
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      const existingRepost = post.reposts.find((repost) => repost.userId.toString() === userId);
+  
+      if (existingRepost) {
+        // User already reposted the post, remove the repost
+        post.reposts = post.reposts.filter((repost) => repost.userId.toString() !== userId);
+      } else {
+        // User hasn't reposted the post, add the repost
+        post.reposts.push({ userId });
+      }
+  
+      await post.save();
+  
+      res.status(200).json({ message: 'Repost toggled successfully', data: post });
+    } catch (error) {
+      console.error('Error toggling repost:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
 
 
 
   
-  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike};
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost};
   
 
 
