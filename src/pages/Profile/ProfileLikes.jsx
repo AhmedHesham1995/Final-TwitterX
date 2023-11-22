@@ -94,19 +94,34 @@ const ProfileLikes = () => {
   const userId = localStorage.getItem('ID');
   const [likedPosts, setLikedPosts] = useState([]);
   
+  // useEffect(() => {
+  //   const fetchLikedPosts = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:4005/users/${userId}/liked-posts`);
+  //       setLikedPosts(response.data);
+  //       console.log(likedPosts);
+  //     } catch (error) {
+  //       console.error('Error fetching liked posts:', error);
+  //     }
+  //   };
+
+  //   fetchLikedPosts();
+  // }, [userId]);
+
+
   useEffect(() => {
     const fetchLikedPosts = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4005/users/${userId}/liked-posts`);
-        setLikedPosts(response.data);
-        console.log(likedPosts);
-      } catch (error) {
-        console.error('Error fetching liked posts:', error);
-      }
+        try {
+            const response = await axios.get(`http://localhost:4005/users/${userId}/liked-posts`);
+            setLikedPosts(response.data);
+            console.log(likedPosts);
+        } catch (error) {
+            console.error('Error fetching liked posts:', error);
+        }
     };
 
     fetchLikedPosts();
-  }, [userId]);
+}, [userId, likedPosts]); // Include likedPosts in the dependency array
 
   const handleRemove = (postId) => {
     dispatch(removeFromLikes(postId));

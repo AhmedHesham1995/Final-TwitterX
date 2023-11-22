@@ -3,7 +3,7 @@ const express=require('express')
 var router=express.Router()
 const {auth}=require('../middlewares/auth')
 
-var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply,toggleLike}=require('../controllers/posts')
+var {getAllPosts,addPost,getOnePost,updatePost,deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost}=require('../controllers/posts')
 
 //posts (ahmed hesham)
 router.get('/',getAllPosts)
@@ -38,6 +38,8 @@ router.delete('/',removeReply)
 
 
 router.post('/toggle-like', auth, toggleLike);
+
+router.post('/toggle-repost', auth, toggleRepost);
 
 
 module.exports=router
