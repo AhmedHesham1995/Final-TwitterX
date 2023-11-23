@@ -253,13 +253,30 @@ const toggleRepost = async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+
+  const fetchLikedPosts = async (req, res) => {
+    const userId = req.params.userId;
+  
+    try {
+      // Assuming you have a 'posts' model, adjust it based on your actual model name
+      const likedPosts = await postsModel.find({ 'likes.userId': userId });
+  
+      res.json(likedPosts);
+    } catch (error) {
+      console.error('Error fetching liked posts:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+  
+  
   
 
 
 
 
   
-  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost};
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost,fetchLikedPosts};
   
 
 
