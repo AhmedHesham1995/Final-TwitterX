@@ -91,59 +91,6 @@ const posts4specificUser=async(req,res)=>{
         res.status(500).json({message: message.err})
     }
 }
-
-
-
-
-
-
-// // Fetch liked posts for a user
-// const fetchLikedPosts = async (req, res) => {
-//   const userId = req.params.userId;
-
-//   try {
-//     const user = await usersModel.findById(userId).populate('likedPosts');
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     const likedPosts = user.likedPosts.map(post => ({
-//       _id: post._id,
-//       title: post.title,
-//       // other fields...
-//     }));
-
-//     res.json(likedPosts);
-//   } catch (error) {
-//     console.error('Error fetching liked posts:', error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
-
-// // Fetch liked posts for a user
-// const fetchLikedPosts = async (req, res) => {
-//     const userId = req.params.userId;
-  
-//     try {
-//       const user = await usersModel.findById(userId).populate('likedPosts');
-      
-//       if (!user) {
-//         return res.status(404).json({ message: 'User not found' });
-//       }
-  
-//       const likedPosts = user.likedPosts.map(post => ({
-//         _id: post._id,
-//         title: post.title,
-//         // other fields...
-//       }));
-  
-//       res.json(likedPosts);
-//     } catch (error) {
-//       console.error('Error fetching liked posts:', error);
-//       res.status(500).json({ message: 'Internal Server Error' });
-//     }
-//   };
   
 
 

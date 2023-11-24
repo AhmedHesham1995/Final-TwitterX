@@ -434,7 +434,7 @@ const ProfileLikes = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:4005/posts/`, // Replace with the correct endpoint for adding a reply
+        `http://localhost:4005/posts/`, 
         { text: replyText, postId, userId: localStorage.getItem('ID') },
         {
           headers: {
