@@ -254,6 +254,36 @@ const toggleRepost = async (req, res) => {
     }
   };
 
+  const toggleSaved = async (req, res) => {
+    const { postId } = req.body;
+    const userId = req.id;
+  
+    try {
+      const post = await postsModel.findById(postId);
+  
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      const savedPost = post.saved.find((savedPost) => savedPost.userId.toString() === userId);
+  
+      if (savedPost) {
+        // User already reposted the post, remove the repost
+        post.saved = post.saved.filter((savedPost) => savedPost.userId.toString() !== userId);
+      } else {
+        // User hasn't reposted the post, add the repost
+        post.saved.push({ userId });
+      }
+  
+      await post.save();
+  
+      res.status(200).json({ message: 'Repost toggled successfully', data: post });
+    } catch (error) {
+      console.error('Error toggling repost:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
 
 
 
@@ -290,7 +320,21 @@ const fetchLikedPosts = async (req, res) => {
   
 
 
-
+  const fetchSavedPosts = async (req, res) => {
+    const userId = req.params.userId;
+  
+    try {
+      
+      const savedPosts = await postsModel
+        .find({ 'saved.userId': userId })
+        .populate('userId'); 
+  
+      res.json(savedPosts);
+    } catch (error) {
+      console.error('Error fetching saved posts:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
 
   
   
@@ -302,7 +346,7 @@ const fetchLikedPosts = async (req, res) => {
 
 
   
-  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost,fetchLikedPosts,fetchRepostedPosts};
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost,fetchLikedPosts,fetchRepostedPosts,fetchSavedPosts,toggleSaved};
   
 
 

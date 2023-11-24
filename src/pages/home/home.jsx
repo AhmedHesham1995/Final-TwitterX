@@ -2485,7 +2485,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faEllipsisV, faHeart, faChartBar, faArrowUp, faComment, faRetweet } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faSquare, faSmile, faCalendar, faLocationDot, faBookmark, faHeart, faChartBar, faArrowUp, faComment, faRetweet } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToLikes, removeFromLikes } from '../../redux/slices/homeLikes';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
@@ -2662,6 +2662,39 @@ const Home = () => {
     }
   };
 
+
+
+  const handleSave = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:4005/posts/toggle-saved',
+        { postId },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      fetchAndSetPosts();
+    } catch (error) {
+      console.error('Error', error.message);
+    }
+  };
+
+
+
+  
+  
+  
+
+  
+  
+
+
+
+ 
+
   return (
     <section>
       <ToastContainer />
@@ -2763,6 +2796,15 @@ const Home = () => {
             </span>
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faArrowUp} />
+            </span>
+            <span className="center__post__bottom-span" onClick={() => handleSave(post._id)}>
+              <FontAwesomeIcon icon={faBookmark}
+                style={{
+                  color: post.saved.some(savedPost => savedPost.userId === localStorage.getItem('ID'))
+                    ? 'yellow'
+                    : 'gray',
+                }}
+              />
             </span>
           </div>
           {selectedPost === post._id && (
