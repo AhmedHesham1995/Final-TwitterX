@@ -453,7 +453,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProfilePosts = () => {
-  const [newPost, setNewPost] = useState('');
+  // const [newPost, setNewPost] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
   const [replies, setReplies] = useState([]);
   const [replyText, setReplyText] = useState('');
@@ -500,27 +500,7 @@ const ProfilePosts = () => {
     }
   };
 
-  const handlePost = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://localhost:4005/posts',
-        {
-          title: newPost,
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-
-      setNewPost('');
-      fetchAndSetPosts();
-    } catch (error) {
-      console.error('Error', error.message);
-    }
-  };
+  
 
   const handleDeletePost = async (postId) => {
     try {
@@ -681,10 +661,223 @@ export default ProfilePosts;
 
 
 
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
+// import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+// import { formatDistanceToNow } from 'date-fns';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+
+// const ProfilePosts = () => {
+//   const [selectedPost, setSelectedPost] = useState(null);
+//   const [replies, setReplies] = useState([]);
+//   const [replyText, setReplyText] = useState('');
+//   const [userData, setUserData] = useState(null);
+//   const [repostedPosts, setRepostedPosts] = useState([]);
+
+//   const dispatch = useDispatch();
+//   const allPosts = useSelector((state) => state.posts.posts);
+
+//   var userId = localStorage.getItem('ID');
+
+//   // const fetchRepostedPosts = async () => {
+//   //   try {
+//   //     const response = await axios.get(`http://localhost:4005/users/${userId}/reposted`);
+//   //     setRepostedPosts(response.data.repostedPosts);
+//   //   } catch (error) {
+//   //     console.error('Error fetching reposted posts:', error);
+//   //   }
+//   // };
+
+//   // ProfilePosts component
+// const fetchRepostedPosts = async () => {
+//   try {
+//     const response = await axios.get(`http://localhost:4005/posts/${userId}/reposted`);
+//     setRepostedPosts(response.data);
+//     console.log(repostedPosts);
+//   } catch (error) {
+//     console.error('Error fetching reposted posts:', error);
+//   }
+// };
 
 
+//   useEffect(() => {
+//     fetchRepostedPosts();
+//   }, [userId]);
 
+//   const postsCreatedByUser = allPosts.filter((p) => p.userId && p.userId._id === userId);
+//   const postsRepostedByUser = allPosts.filter((p) => p.isRepost);
+//   const mergedPosts = [...postsCreatedByUser, ...postsRepostedByUser];
 
+//   const fetchAndSetPosts = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts`);
+//       dispatch(setPostsAction(response.data.reverse()));
+//     } catch (error) {
+//       console.error('Error fetching posts:', error);
+//     }
+//   };
 
+//   const fetchReplies = async (postId) => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+//       setReplies(response.data.replies);
+//     } catch (error) {
+//       console.error('Error fetching replies:', error);
+//     }
+//   };
 
+//   useEffect(() => {
+//     fetchAndSetPosts();
+//   }, []);
 
+//   const handleDeletePost = async (postId) => {
+//     try {
+//       await axios.delete(`http://localhost:4005/posts/${postId}`);
+//       fetchAndSetPosts();
+//       toast.success('Post deleted successfully');
+//     } catch (error) {
+//       console.error('Error', error.message);
+//       toast.error('Error deleting post');
+//     }
+//   };
+
+//   const handleReplyClick = (postId) => {
+//     setSelectedPost(postId);
+//     fetchReplies(postId);
+//   };
+
+//   const handleReply = async (postId, replyText) => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.put(
+//         `http://localhost:4005/posts/`,
+//         { text: replyText, postId, userId: localStorage.getItem('ID') },
+//         {
+//           headers: {
+//             Authorization: token,
+//           },
+//         }
+//       );
+//       setReplyText('');
+//       fetchReplies(postId);
+//     } catch (error) {
+//       console.error('Error posting reply:', error.message);
+//     }
+//   };
+
+//   const handleRepost = async (postId) => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.post(
+//         'http://localhost:4005/posts/toggle-repost',
+//         { postId },
+//         {
+//           headers: {
+//             Authorization: token,
+//           },
+//         }
+//       );
+//       fetchAndSetPosts();
+//     } catch (error) {
+//       console.error('Error', error.message);
+//     }
+//   };
+
+//   const handleLike = async (postId) => {
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.post(
+//         'http://localhost:4005/posts/toggle-like',
+//         { postId },
+//         {
+//           headers: {
+//             Authorization: token,
+//           },
+//         }
+//       );
+//       fetchAndSetPosts();
+//     } catch (error) {
+//       console.error('Error', error.message);
+//     }
+//   };
+
+//   return (
+//     <section>
+//       {mergedPosts.map((post) => (
+//         <div className="center__post" key={post._id}>
+//           <div className="center__post__header">
+//             <div className="center__post__header-left">
+//               <img src={post.userProfilePicture} alt="" />
+//               <span className="center__post__header-left__name">{post.userId && post.userId.name}</span>
+//               <span className="center__post__header-left__user">
+//                 @{post.userId && post.userId.username} . {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+//               </span>
+//             </div>
+//             <div className="center__post__header-right">
+//               <span>
+//                 <i onClick={() => handleDeletePost(post._id)} className="fas fa-ellipsis svg"></i>
+//               </span>
+//             </div>
+//           </div>
+//           <div className="center__post__body">
+//             <span className="center__post__body__content">{post.title}</span>
+//           </div>
+//           <div className="center__post__bottom">
+//             <span className="center__post__bottom-span" onClick={() => handleReplyClick(post._id)}>
+//               <FontAwesomeIcon icon={faComment} />
+//             </span>
+//             <span className="center__post__bottom-span" onClick={() => handleRepost(post._id)}>
+//               <FontAwesomeIcon
+//                 icon={faRetweet}
+//                 style={{
+//                   color: post.reposts.some(repost => repost.userId === userId) ? 'green' : 'gray',
+//                 }}
+//               />
+//               {post.reposts.length > 0 && post.reposts.length}
+//             </span>
+//             <span className="center__post__bottom-span" onClick={() => handleLike(post._id)}>
+//               <FontAwesomeIcon
+//                 style={{ color: post.likes.some(like => like.userId === userId) ? 'red' : 'gray' }}
+//                 icon={faHeart}
+//               />
+//               {post.likes.length > 0 && post.likes.length}
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faChartBar} />
+//             </span>
+//             <span className="center__post__bottom-span">
+//               <FontAwesomeIcon icon={faArrowUp} />
+//             </span>
+//           </div>
+//           {selectedPost === post._id && (
+//             <div>
+//               <div>
+//                 {/* Input for adding a reply */}
+//                 <input
+//                   type="text"
+//                   placeholder="Add a reply..."
+//                   value={replyText}
+//                   onChange={(e) => setReplyText(e.target.value)}
+//                 />
+//                 <button onClick={() => handleReply(selectedPost, replyText)}>Reply</button>
+//               </div>
+//               {Array.isArray(replies) &&
+//                 replies.map((reply) => (
+//                   <div style={{ color: "white" }} key={reply._id}>
+//                     <span>{reply.text}</span>
+//                   </div>
+//                 ))}
+//             </div>
+//           )}
+//         </div>
+//       ))}
+//       <ToastContainer position="bottom-right" />
+//     </section>
+//   );
+// };
+
+// export default ProfilePosts;

@@ -254,12 +254,17 @@ const toggleRepost = async (req, res) => {
     }
   };
 
-  const fetchLikedPosts = async (req, res) => {
+
+
+
+const fetchLikedPosts = async (req, res) => {
     const userId = req.params.userId;
   
     try {
-      // Assuming you have a 'posts' model, adjust it based on your actual model name
-      const likedPosts = await postsModel.find({ 'likes.userId': userId });
+      
+      const likedPosts = await postsModel
+        .find({ 'likes.userId': userId })
+        .populate('userId'); 
   
       res.json(likedPosts);
     } catch (error) {
@@ -268,6 +273,27 @@ const toggleRepost = async (req, res) => {
     }
   };
   
+
+  const fetchRepostedPosts = async (req, res) => {
+    const userId = req.params.userId;
+  
+    try {
+      const repostedPosts = await postsModel
+        .find({ 'reposts.userId': userId })
+        .populate('userId');
+      res.json(repostedPosts);
+    } catch (error) {
+      console.error('Error fetching reposted posts:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
+
+
+
+  
+  
   
   
   
@@ -276,7 +302,7 @@ const toggleRepost = async (req, res) => {
 
 
   
-  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost,fetchLikedPosts};
+  module.exports = { getAllPosts, addPost, getOnePost, updatePost, deletePost, addReply, editReply, removeReply,toggleLike,toggleRepost,fetchLikedPosts,fetchRepostedPosts};
   
 
 
