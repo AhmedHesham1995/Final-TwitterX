@@ -237,8 +237,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faRetweet, faHeart, faChartBar, faArrowUp, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faRetweet, faHeart, faChartBar, faArrowUp, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { formatDistanceToNow } from 'date-fns';
+import Swal from 'sweetalert2';
 
 const ProfileReplies = () => {
   const [replies, setReplies] = useState([]);
@@ -264,14 +265,44 @@ const ProfileReplies = () => {
     fetchReplies();
   }, []);
 
+  // const handleDeleteReply = async (replyId) => {
+  //   try {
+  //     await axios.delete(`http://localhost:4005/posts/${replyId}`);
+  //     setReplies((prevReplies) =>
+  //       prevReplies.filter((reply) => reply._id !== replyId)
+  //     );
+  //   } catch (error) {
+  //     console.error("Error deleting reply:", error.message);
+  //   }
+  // };
+
   const handleDeleteReply = async (replyId) => {
-    try {
-      await axios.delete(`http://localhost:4005/posts/${replyId}`);
-      setReplies((prevReplies) =>
-        prevReplies.filter((reply) => reply._id !== replyId)
-      );
-    } catch (error) {
-      console.error("Error deleting reply:", error.message);
+    // Display SweetAlert confirmation dialog
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this reply!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    // If the user confirms the deletion, proceed with the deletion
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:4005/posts/${replyId}`);
+        setReplies((prevReplies) =>
+          prevReplies.filter((reply) => reply._id !== replyId)
+        );
+
+        // Display success message with SweetAlert
+        Swal.fire('Deleted!', 'Your reply has been deleted.', 'success');
+      } catch (error) {
+        console.error('Error deleting reply:', error.message);
+        // Display error message with SweetAlert
+        Swal.fire('Error!', 'An error occurred while deleting the reply.', 'error');
+      }
     }
   };
 
@@ -315,7 +346,7 @@ const ProfileReplies = () => {
           <div className="center__post__body">
             <span className="center__post__body__content">{reply.text}</span>
           </div>
-          <div className="center__post__bottom">
+          {/* <div className="center__post__bottom">
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faComment} />
             </span>
@@ -331,7 +362,10 @@ const ProfileReplies = () => {
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faArrowUp} />
             </span>
-          </div>
+            <span className="center__post__bottom-span">
+              <FontAwesomeIcon icon={faBookmark}/>
+            </span>
+          </div> */}
         </div>
       ))}
     </div>

@@ -91,6 +91,9 @@ const Profile = () => {
               <NavLink style={({ isActive }) => {
                 return (isActive) ? { color: "white" } : { color: "gray" }
               }} to="/profile/likes"><span> Likes</span> </NavLink>
+              <NavLink style={({ isActive }) => {
+                return (isActive) ? { color: "white" } : { color: "gray" }
+              }} to="/profile/saves"><span> Saved</span> </NavLink>
             </div>
             <hr />
             <Outlet />

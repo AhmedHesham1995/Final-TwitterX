@@ -124,6 +124,14 @@ const postsSchema = mongoose.Schema({
             ref: 'User'
           }
         }
+      ],
+      saved: [
+        {
+          userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+          }
+        }
       ]
 }, { timestamps: true });
 

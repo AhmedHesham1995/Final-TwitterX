@@ -34,6 +34,7 @@ import Protected from "./components/protected/protected";
 import { Provider, useSelector } from "react-redux";
 import store from './redux/store'
 import EditProfile from "./pages/Profile/EditProfile/EditProfile";
+import ProfileSaved from "./pages/Profile/profileSaved";
 
 
 const router = createBrowserRouter([
@@ -88,6 +89,7 @@ const router = createBrowserRouter([
           { path: "highlights", element: <ProfileHighlights /> },
           { path: "media", element: <ProfileMedia /> },
           { path: "likes", element: <ProfileLikes /> },
+          { path: "saves", element: <ProfileSaved /> },
         ],
       },
       { path: "communities", element: <Protected><Communities /></Protected> },

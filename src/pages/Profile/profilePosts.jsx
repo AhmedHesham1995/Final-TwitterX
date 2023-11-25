@@ -441,30 +441,29 @@
 
 
 
+
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
-// import { useNavigate } from 'react-router-dom';
-// import { faComment, faRetweet, faHeart, faChartBar, faArrowUp, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+// import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 // import { formatDistanceToNow } from 'date-fns';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { toast, ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
 // const ProfilePosts = () => {
+//   const userId = localStorage.getItem('ID');
+//   const [repostedPosts, setRepostedPosts] = useState([]);
 //   // const [newPost, setNewPost] = useState('');
 //   const [selectedPost, setSelectedPost] = useState(null);
 //   const [replies, setReplies] = useState([]);
 //   const [replyText, setReplyText] = useState('');
 
 //   const [userData, setUserData] = useState(null);
-//   const navigate = useNavigate();
-
-//   const dispatch = useDispatch();
-//   const Allposts = useSelector((state) => state.posts.posts);
-
-//   const posts = Allposts.filter((p) => p.userId && p.userId._id == localStorage.getItem('ID'));
 
 //   const getUser = async () => {
 //     try {
@@ -478,42 +477,42 @@
 
 //   getUser();
 
+
+
+//   let Allposts = useSelector((state) => state.posts.posts);
+//   console.log(Allposts);
+//   const dispatch=useDispatch()
+//   const posts = Allposts.filter((p) => p.userId && p.userId._id == localStorage.getItem('ID'));
+
 //   const fetchAndSetPosts = async () => {
+//         try {
+//           const response = await axios.get(`http://localhost:4005/posts`);
+//           dispatch(setPostsAction(response.data.reverse()));
+//         } catch (error) {
+//           console.error('Error fetching posts:', error);
+//         }
+//       };
+    
+//       useEffect(() => {
+//         fetchAndSetPosts();
+//       }, []);
+
+
+//   const fetchRepostedPosts = async () => {
 //     try {
-//       const response = await axios.get(`http://localhost:4005/posts`);
-//       dispatch(setPostsAction(response.data.reverse()));
+//       const response = await axios.get(`http://localhost:4005/posts/${userId}/reposted`);
+//       setRepostedPosts(response.data);
+//       console.log(repostedPosts);
 //     } catch (error) {
-//       console.error('Error fetching posts:', error);
+//       console.error('Error fetching liked posts:', error);
 //     }
 //   };
 
 //   useEffect(() => {
-//     fetchAndSetPosts();
-//   }, []);
+//     fetchRepostedPosts();
+//   }, [userId]);
 
-//   const fetchReplies = async (postId) => {
-//     try {
-//       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
-//       setReplies(response.data.replies);
-//     } catch (error) {
-//       console.error('Error fetching replies:', error);
-//     }
-//   };
-
-  
-
-//   const handleDeletePost = async (postId) => {
-//     try {
-//       await axios.delete(`http://localhost:4005/posts/${postId}`);
-//       fetchAndSetPosts();
-//       toast.success('Post deleted successfully');
-//     } catch (error) {
-//       console.error('Error', error.message);
-//       toast.error('Error deleting post');
-//     }
-//   };
-
-//   const handleReplyClick = (postId) => {
+//     const handleReplyClick = (postId) => {
 //     setSelectedPost(postId);
 //     fetchReplies(postId);
 //   };
@@ -522,7 +521,7 @@
 //     try {
 //       const token = localStorage.getItem('token');
 //       await axios.put(
-//         `http://localhost:4005/posts/`, // Replace with the correct endpoint for adding a reply
+//         `http://localhost:4005/posts/`, 
 //         { text: replyText, postId, userId: localStorage.getItem('ID') },
 //         {
 //           headers: {
@@ -549,7 +548,8 @@
 //           },
 //         }
 //       );
-//       fetchAndSetPosts();
+//       // fetchAndSetPosts();
+//       fetchRepostedPosts()
 //     } catch (error) {
 //       console.error('Error', error.message);
 //     }
@@ -567,16 +567,40 @@
 //           },
 //         }
 //       );
-//       fetchAndSetPosts();
+//       // fetchAndSetPosts();
+//       // fetchRepostedPosts()
 //     } catch (error) {
 //       console.error('Error', error.message);
 //     }
 //   };
 
+//   const handleDeletePost = async (postId) => {
+//         try {
+//           await axios.delete(`http://localhost:4005/posts/${postId}`);
+//           fetchAndSetPosts();
+//         } catch (error) {
+//           console.error('Error', error.message);
+//         }
+//       };
+
+//   const fetchReplies = async (postId) => {
+//     try {
+//       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+//       setReplies(response.data.replies);
+//     } catch (error) {
+//       console.error('Error fetching replies:', error);
+//     }
+//   };
+
+//   const combinedPosts = [...posts, ...repostedPosts];
+
 //   return (
-//     <section>
-//       {posts.map((post) => (
-//         <div className="center__post" key={post._id}>
+//     <>
+//       {combinedPosts.length === 0 ? (
+//         <h1>No posts</h1>
+//       ) : (
+//         combinedPosts.map((post) => (
+//           <div className="center__post" key={post._id}>
 //           <div className="center__post__header">
 //             <div className="center__post__header-left">
 //               <img src={post.userProfilePicture} alt="" />
@@ -587,7 +611,8 @@
 //             </div>
 //             <div className="center__post__header-right">
 //               <span>
-//                 <i onClick={() => handleDeletePost(post._id)} className="fas fa-ellipsis svg"></i>
+//                   <i onClick={() => handleDeletePost(post._id)} className="fas fa-ellipsis svg" ></i>
+
 //               </span>
 //             </div>
 //           </div>
@@ -644,13 +669,29 @@
 //             </div>
 //           )}
 //         </div>
-//       ))}
-//       <ToastContainer position="bottom-right" />
-//     </section>
-//   );
-// };
+//         ))
+//       )}
+//     </>
+//   )};
 
 // export default ProfilePosts;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -665,10 +706,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
-import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faRetweet, faHeart, faChartBar, faArrowUp,faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { formatDistanceToNow } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';  // Import SweetAlert
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProfilePosts = () => {
@@ -783,7 +824,7 @@ const ProfilePosts = () => {
           },
         }
       );
-      // fetchAndSetPosts();
+      fetchAndSetPosts();
       // fetchRepostedPosts()
     } catch (error) {
       console.error('Error', error.message);
@@ -791,20 +832,51 @@ const ProfilePosts = () => {
   };
 
   const handleDeletePost = async (postId) => {
-        try {
-          await axios.delete(`http://localhost:4005/posts/${postId}`);
-          fetchAndSetPosts();
-        } catch (error) {
-          console.error('Error', error.message);
-        }
-      };
+    // Show SweetAlert confirmation
+    const isConfirmed = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this post!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+      reverseButtons: true,
+    });
 
+    if (isConfirmed.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:4005/posts/${postId}`);
+        fetchAndSetPosts();
+        Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+      } catch (error) {
+        console.error('Error', error.message);
+      }
+    }
+  };
   const fetchReplies = async (postId) => {
     try {
       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
       setReplies(response.data.replies);
     } catch (error) {
       console.error('Error fetching replies:', error);
+    }
+  };
+
+  const handleSave = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:4005/posts/toggle-saved',
+        { postId },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      fetchAndSetPosts();
+    } catch (error) {
+      console.error('Error', error.message);
     }
   };
 
@@ -862,6 +934,15 @@ const ProfilePosts = () => {
             </span>
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faArrowUp} />
+            </span>
+            <span className="center__post__bottom-span" onClick={() => handleSave(post._id)}>
+              <FontAwesomeIcon icon={faBookmark}
+                style={{
+                  color: post.saved.some(savedPost => savedPost.userId === localStorage.getItem('ID'))
+                    ? 'yellow'
+                    : 'gray',
+                }}
+              />
             </span>
           </div>
           {selectedPost === post._id && (
