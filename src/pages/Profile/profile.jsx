@@ -7,7 +7,6 @@ import FollowPages from "../../components/medium/followPages";
 import ExploreComp from "../../components/small/exploreComp";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import axios from "axios";
-// import { useSelector } from "react-redux";
 import './profile.css'
 
 
