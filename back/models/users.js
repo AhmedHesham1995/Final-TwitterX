@@ -102,7 +102,6 @@ const usersSchema = mongoose.Schema({
         unique: true,
         minLength: 3
     },
-    likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 
     location: {
         type: String,
