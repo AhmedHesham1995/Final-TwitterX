@@ -2710,14 +2710,6 @@ const Home = () => {
 
   
   
-  
-
-  
-  
-
-
-
- 
 
   return (
     <section>
