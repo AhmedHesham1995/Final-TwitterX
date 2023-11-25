@@ -709,7 +709,7 @@ import { setPosts as setPostsAction } from '../../redux/slices/postsSlice';
 import { faComment, faRetweet, faHeart, faChartBar, faArrowUp,faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { formatDistanceToNow } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Swal from 'sweetalert2';  // Import SweetAlert
+// import Swal from 'sweetalert2';  // Import SweetAlert
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProfilePosts = () => {

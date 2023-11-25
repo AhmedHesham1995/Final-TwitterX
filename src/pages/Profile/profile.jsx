@@ -46,6 +46,7 @@ const Profile = () => {
               position: "relative",
             }}
           >
+            <div></div>
             <div >
               {user.profileCover && <img className="cover-picture" src={user.profileCover} alt="cover" />}
             </div>
@@ -55,8 +56,24 @@ const Profile = () => {
                 {user.profilePicture && <img src={user.profilePicture} alt="Profile" />}
                 <h4>{user.name}</h4>
                 <div className="user-profile-info-es">
-                  <h6> 326 Followin 428 Followers</h6>
-                  <h6>  {user.email}</h6>
+
+                  <h6>
+                    <NavLink
+                      to='/profile/profilefollowers'
+                      style={{ color: 'white', textDecoration: 'none' }}
+                    >Followers: </NavLink>
+                    {user.followers?.length}
+                  </h6>
+
+                  <h6>
+                    <NavLink
+                      to='/profile/profilefollowing'
+                      style={{ color: 'white', textDecoration: 'none' }}
+                    >Following: </NavLink>
+                    {user.following?.length}
+                  </h6>
+
+                  <h6>{user.email}</h6>
                   <h6>bio: {user.bio}</h6>
                   <h6>location: {user.location}</h6>
                   <h6>birth Date: {user.birthDate}</h6>
@@ -64,11 +81,11 @@ const Profile = () => {
 
               </div>
               <div className="edit-profile">
-              <button
-                className="btn btn-dark"
-              >
-                <NavLink to='/editProfile' style={{color: 'white', textDecoration:'none'}}>Edit profile</NavLink>
-              </button>
+                <button
+                  className="btn btn-dark"
+                >
+                  <NavLink to='/editProfile' style={{ color: 'white', textDecoration: 'none' }}>Edit profile</NavLink>
+                </button>
               </div>
             </div>
             <div className="activities">
@@ -93,7 +110,10 @@ const Profile = () => {
               }} to="/profile/likes"><span> Likes</span> </NavLink>
               <NavLink style={({ isActive }) => {
                 return (isActive) ? { color: "white" } : { color: "gray" }
-              }} to="/profile/saves"><span> Saved</span> </NavLink>
+              }} to="/profile/ProfileFollowers"><span> Followers</span> </NavLink>
+              <NavLink style={({ isActive }) => {
+                return (isActive) ? { color: "white" } : { color: "gray" }
+              }} to="/profile/ProfileFollowing"><span> Following</span> </NavLink>
             </div>
             <hr />
             <Outlet />

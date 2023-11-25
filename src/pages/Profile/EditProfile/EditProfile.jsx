@@ -5,6 +5,32 @@ import './EditProfile.css';
 import axios from 'axios';
 
 const EditProfile = () => {
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem('ID')}`);
+                const data = response.data.data;
+                setUser(data);
+                setUserData({
+                    name: data.name,
+                    profilePicture: data.profilePicture,
+                    profileCover: data.profileCover,
+                    location: data.location,
+                    bio: data.bio,
+                    birthDate: data.birthDate,
+                });
+                console.log(response);
+            } catch (error) {
+                console.error('Error fetching user data:', error.message);
+            }
+        };
+        fetchUser();
+    }, []);
+
+
     const initState = {
         name: '',
         profileCover: '',
@@ -15,6 +41,8 @@ const EditProfile = () => {
     };
     const [userData, setUserData] = useState(initState);
     const { name, profileCover, profilePicture, location, bio, birthDate } = userData;
+
+
 
 
     const navigate = useNavigate()
@@ -83,43 +111,42 @@ const EditProfile = () => {
                         <h5 className='form-header'>Edit profile</h5>
                     </div>
                     <form className='' onSubmit={handleSubmit}>
-                        <button className='btn border rounded-pill btn-light fw-bold' type="submit"  >
-                            save
+                        <button className='btn border rounded-pill btn-light fw-bold' type="submit">
+                            Save
                         </button>
                     </form>
                 </div>
 
                 <form className='' onSubmit={handleSubmit}>
-
-                    <div className='text-center'>
+                    {/* <div className='text-center'>
                         <label className='coverBtn' htmlFor='coverBtn'>
                             <i className="btn btn-dark fas fa-camera"></i>
                         </label>
                         <input
-                            // onChange={handleProfileCoverChange}
+                            onChange={handleProfileCoverChange}
                             accept='image/*'
                             type='file'
                             style={{ display: 'none' }}
                             id='coverBtn'
                         />
-                    </div>
+                    </div> */}
 
                     <br />
 
                     <div className='d-flex'>
                         <br />
-                        <div className='edit-profile-photo d-flex '>
+                        {/* <div className='edit-profile-photo d-flex '>
                             <label htmlFor='profilePhoto' className='change-photo btn btn-dark'>
                                 <i className="fas fa-camera"></i>
                             </label>
                             <input
-                                // onChange={handleProfilePhotoChange}
+                                onChange={handleProfilePictureChange}
                                 id='profilePhoto'
                                 type='file'
                                 accept='image/*'
                                 style={{ display: 'none' }}
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     <div key={userData.userId} className='form_group'>
@@ -138,7 +165,7 @@ const EditProfile = () => {
                                 style={{ border: '1px solid #555' }}
                             />
                             <small className="text-secondary position-absolute" style={{ top: '50%', right: '5px', transform: 'translateY(-50%)' }}>
-                                {/* {name.length}/50 */}
+                                {name?.length}/50
                             </small>
                         </div>
                         <br />
@@ -158,7 +185,7 @@ const EditProfile = () => {
                                 style={{ border: '1px solid #555' }}
                             />
                             <small className="text-secondary position-absolute" style={{ top: '50%', right: '5px', transform: 'translateY(-50%)' }}>
-                                {/* {userData.bio.length}/140 */}
+                                {userData.bio?.length}/140
                             </small>
                         </div>
                         <br />
@@ -178,7 +205,7 @@ const EditProfile = () => {
                                 style={{ border: '1px solid #555' }}
                             />
                             <small className="text-secondary position-absolute" style={{ top: '50%', right: '5px', transform: 'translateY(-50%)' }}>
-                                {/* {location.length}/20 */}
+                                {location?.length}/20
                             </small>
                         </div>
                         <br />

@@ -6,7 +6,8 @@ const{authAdmin}=require('../middlewares/authAdmin')
 
 const {auth}=require('../middlewares/auth')
 
-const {getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser}=require('../controllers/users')
+const {getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser, 
+    follow, unfollow, getFollowers, getFollowing }=require('../controllers/users')
 
 
 
@@ -31,7 +32,10 @@ router.get('/:id/posts',posts4specificUser)
 
 
 // router.get('/:userId/liked-posts',fetchLikedPosts);
-
+router.put('/follow/:userId',auth, follow);
+router.put('/unfollow/:unfollowId',auth, unfollow);
+router.get('/:id/followers', auth, getFollowers)
+router.get('/:id/following', auth, getFollowing)
 
 
 //authentication

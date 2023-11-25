@@ -1,40 +1,40 @@
-const usersModel=require('../models/users')
-const postsModel=require('../models/posts')
-const bcrypt=require('bcryptjs')
-const jwt=require('jsonwebtoken')
+const usersModel = require('../models/users')
+const postsModel = require('../models/posts')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-const getAllUsers=async(req,res)=>{
-    try{
-        let users=await usersModel.find({},'name -_id')
+const getAllUsers = async (req, res) => {
+    try {
+        let users = await usersModel.find({}, 'name -_id')
         res.status(200).json(users)
     }
-    catch(err){
-        res.status(500).json({message:"something went wrong"})
+    catch (err) {
+        res.status(500).json({ message: "something went wrong" })
 
     }
 }
-    
-const addUser=async(req,res)=>{
-    var user=req.body
-    try{
-        const newuser=await usersModel.create(user)
-        res.json({message:"added successfully",data:newuser})
+
+const addUser = async (req, res) => {
+    var user = req.body
+    try {
+        const newuser = await usersModel.create(user)
+        res.json({ message: "added successfully", data: newuser })
     }
-    catch(err){
-        res.status(400).json({message:err.message})
+    catch (err) {
+        res.status(400).json({ message: err.message })
     }
 
 }
 
-const getOneUser=async(req,res)=>{
-    let userId=req.params.id
-    try{
-        let wanted=await usersModel.findOne({_id:userId})
+const getOneUser = async (req, res) => {
+    let userId = req.params.id
+    try {
+        let wanted = await usersModel.findOne({ _id: userId })
         console.log(wanted);
-        res.status(200).json({message:"s",data:wanted})
+        res.status(200).json({ message: "s", data: wanted })
     }
-    catch(err){
-        res.json({message: err.message})
+    catch (err) {
+        res.json({ message: err.message })
     }
 }
 
@@ -63,61 +63,132 @@ const updateUser = async (req, res) => {
 
 
 
-const deleteUser=async(req,res)=>{
-    let userId=req.params.id
-    try{
-        await usersModel.deleteOne({_id:userId})
-        res.status(200).json({message: "deleted success"})
+const deleteUser = async (req, res) => {
+    let userId = req.params.id
+    try {
+        await usersModel.deleteOne({ _id: userId })
+        res.status(200).json({ message: "deleted success" })
     }
-    catch(err){
-        res.status(500).json({message: err.message})
+    catch (err) {
+        res.status(500).json({ message: err.message })
     }
 }
 
 
 
-const posts4specificUser=async(req,res)=>{
-    let user=req.params.id
+const posts4specificUser = async (req, res) => {
+    let user = req.params.id
     console.log(user);
-    try{
-        let wanted=await postsModel.find({userId:user})
-        if(wanted.length) {
+    try {
+        let wanted = await postsModel.find({ userId: user })
+        if (wanted.length) {
             res.status(200).json(wanted)
             console.log(wanted);
         }
-        else res.status(404).json({message: "This user hadn't posted never"})
+        else res.status(404).json({ message: "This user hadn't posted never" })
     }
-    catch(err){
-        res.status(500).json({message: message.err})
+    catch (err) {
+        res.status(500).json({ message: message.err })
     }
 }
-  
+
+const follow = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await usersModel.findById(userId)
+        if (user.followers.includes(req.user.id)) {
+            return res.status(400).json({ message: 'You are already following this user' });
+        }
+
+        await usersModel.findByIdAndUpdate(
+            userId,
+            { $push: { followers: req.user.id } },
+            { new: true }
+        );
+
+        const result = await usersModel.findByIdAndUpdate(
+            req.user.id,
+            { $push: { following: userId } },
+            { new: true }
+        )
+
+        res.json(result);
+    } catch (error) {
+        return res.status(422).json({ error: error.message });
+    }
+};
+
+const unfollow = async (req, res) => {
+    try {
+        const { unfollowId } = req.params;
+
+        await usersModel.findByIdAndUpdate(
+            unfollowId,
+            { $pull: { followers: req.user.id } },
+            { new: true }
+        );
+
+        const result = await usersModel.findByIdAndUpdate(
+            req.user.id,
+            { $pull: { following: unfollowId } },
+            { new: true }
+        )
+
+        res.json(result);
+    } catch (error) {
+        return res.status(422).json({ error: error.message });
+    }
+};
+
+const getFollowers = async (req, res) => {
+    try {
+        // const userId = req.params.id;
+        const userId = req.user.id;
+        const user = await usersModel.findById(userId).populate('followers', 'name  profilePicture');
+        res.status(200).json({ followers: user.followers });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getFollowing = async (req, res) => {
+    try {
+        // const userId = req.params.id;
+        const userId = req.user.id;
+        const user = await usersModel.findById(userId).populate('following', 'name profilePicture');
+        res.status(200).json({ following: user.following });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 
 
 
 
 //authentication
-async function login(req,res){
-    const {email,password,role}=req.body
-    if(!email || !password){
-        return res.status(400).json({message:"you must provide email and password"})
+async function login(req, res) {
+    const { email, password, role } = req.body
+    if (!email || !password) {
+        return res.status(400).json({ message: "you must provide email and password" })
     }
 
-    const user=await usersModel.findOne({email:email})
-    if(!user){
-        return res.status(404).json({message:"invalid email or password"})
+    const user = await usersModel.findOne({ email: email })
+    if (!user) {
+        return res.status(404).json({ message: "invalid email or password" })
     }
 
-    const isValid=await bcrypt.compare(password,user.password)
-    if(!isValid){
-        return res.status(401).json({message:"invalid password"})
+    const isValid = await bcrypt.compare(password, user.password)
+    if (!isValid) {
+        return res.status(401).json({ message: "invalid password" })
     }
 
 
     //generate token
-    const token=jwt.sign({id:user._id,name:user.username},process.env.SECRET)
-    res.status(200).json({token:token, id:user._id})
+    const token = jwt.sign({ id: user._id, name: user.username }, process.env.SECRET)
+    res.status(200).json({ token: token, id: user._id })
 }
 
-module.exports={getAllUsers,addUser,getOneUser,updateUser,deleteUser,login,posts4specificUser}
+module.exports = { getAllUsers, addUser, getOneUser, updateUser, deleteUser, login, posts4specificUser,follow, unfollow, getFollowers, getFollowing }
