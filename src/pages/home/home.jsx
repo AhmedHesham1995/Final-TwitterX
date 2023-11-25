@@ -2664,6 +2664,27 @@ const Home = () => {
 
 
 
+  // const handleSave = async (postId) => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     await axios.post(
+  //       'http://localhost:4005/posts/toggle-saved',
+  //       { postId },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     );
+  //     fetchAndSetPosts();
+  //   } catch (error) {
+  //     console.error('Error', error.message);
+  //   }
+  // };
+
+
+
+
   const handleSave = async (postId) => {
     try {
       const token = localStorage.getItem('token');
@@ -2676,24 +2697,19 @@ const Home = () => {
           },
         }
       );
+
       fetchAndSetPosts();
+
+      // Show Toastify message for saved post
+      toast.success('Post saved!');
+
     } catch (error) {
       console.error('Error', error.message);
     }
   };
 
-
-
   
   
-  
-
-  
-  
-
-
-
- 
 
   return (
     <section>

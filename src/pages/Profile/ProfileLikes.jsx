@@ -386,9 +386,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faRetweet, faHeart, faChartBar, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faRetweet, faHeart, faChartBar, faArrowUp,faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { formatDistanceToNow } from 'date-fns';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ProfileLikes = () => {
   const userId = localStorage.getItem('ID');
   const [likedPosts, setLikedPosts] = useState([]);
@@ -397,19 +398,21 @@ const ProfileLikes = () => {
   const [replies, setReplies] = useState([]);
   const [replyText, setReplyText] = useState('');
 
+  
+
   const [userData, setUserData] = useState(null);
 
-  const getUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem('ID')}`);
-      var userData = response.data.data;
-      setUserData(userData);
-    } catch (error) {
-      console.error('Error get user:', error);
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem('ID')}`);
+  //     var userData = response.data.data;
+  //     setUserData(userData);
+  //   } catch (error) {
+  //     console.error('Error get user:', error);
+  //   }
+  // };
 
-  getUser();
+  // getUser();
 
   const fetchLikedPosts = async () => {
     try {
@@ -430,12 +433,13 @@ const ProfileLikes = () => {
     fetchReplies(postId);
   };
 
-  const handleReply = async (postId, replyText) => {
+
+  const handleReply = async () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:4005/posts/`, 
-        { text: replyText, postId, userId: localStorage.getItem('ID') },
+        `http://localhost:4005/posts/`,
+        { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
         {
           headers: {
             Authorization: token,
@@ -443,9 +447,41 @@ const ProfileLikes = () => {
         }
       );
       setReplyText('');
-      fetchReplies(postId);
+      fetchReplies(selectedPost);
     } catch (error) {
-      console.error('Error posting reply:', error.message);
+      console.error('Error replying to post:', error.message);
+    }
+  };
+
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+      return null;
+    }
+  };
+
+  const fetchReplyUserDetails = async (replies) => {
+    const userDetailsPromises = replies.map(async (reply) => {
+      const userDetails = await fetchUserDetails(reply.postedBy);
+      return {
+        ...reply,
+        postedBy: userDetails,
+      };
+    });
+
+    return Promise.all(userDetailsPromises);
+  };
+
+  const fetchReplies = async (postId) => {
+    try {
+      const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+      const repliesWithUserDetails = await fetchReplyUserDetails(response.data.replies);
+      setReplies(repliesWithUserDetails);
+    } catch (error) {
+      console.error('Error fetching replies:', error);
     }
   };
 
@@ -487,17 +523,33 @@ const ProfileLikes = () => {
     }
   };
 
-  const fetchReplies = async (postId) => {
+  const handleSave = async (postId) => {
     try {
-      const response = await axios.get(`http://localhost:4005/posts/${postId}`);
-      setReplies(response.data.replies);
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:4005/posts/toggle-saved',
+        { postId },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      fetchLikedPosts();
+
+      // Show Toastify message for saved post
+      toast.success('Post saved!');
+
     } catch (error) {
-      console.error('Error fetching replies:', error);
+      console.error('Error', error.message);
     }
   };
+  
 
   return (
     <>
+      <ToastContainer />
       {likedPosts.length === 0 ? (
         <h1>No liked posts</h1>
       ) : (
@@ -548,25 +600,41 @@ const ProfileLikes = () => {
             <span className="center__post__bottom-span">
               <FontAwesomeIcon icon={faArrowUp} />
             </span>
+            <span className="center__post__bottom-span" onClick={() => handleSave(post._id)}>
+              <FontAwesomeIcon icon={faBookmark}
+                style={{
+                  color: post.saved.some(savedPost => savedPost.userId === localStorage.getItem('ID'))
+                    ? 'yellow'
+                    : 'gray',
+                }}
+              />
+            </span>
           </div>
           {selectedPost === post._id && (
             <div>
               <div>
-                {/* Input for adding a reply */}
                 <input
                   type="text"
                   placeholder="Add a reply..."
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                 />
-                <button onClick={() => handleReply(selectedPost, replyText)}>Reply</button>
+                <button onClick={handleReply}>Reply</button>
               </div>
-              {Array.isArray(replies) &&
-                replies.map((reply) => (
-                  <div style={{ color: "white" }} key={reply._id}>
-                    <span>{reply.text}</span>
+              {Array.isArray(replies) && replies.map((reply) => (
+                <div key={reply._id}>
+                  <div className="center__post__header-left">
+                    <img src={reply.postedBy.profilePicture} alt="" />
+                    <span className="center__post__header-left__name">
+                      {reply.postedBy.name}
+                    </span>
+                    <span className="center__post__header-left__user">
+                      @{reply.postedBy.username} . {formatDistanceToNow(new Date(reply.created), { addSuffix: true })}
+                    </span>
                   </div>
-                ))}
+                  <span>{reply.text}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>
