@@ -722,17 +722,17 @@ const ProfilePosts = () => {
 
   const [userData, setUserData] = useState(null);
 
-  const getUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem('ID')}`);
-      var userData = response.data.data;
-      setUserData(userData);
-    } catch (error) {
-      console.error('Error get user:', error);
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:4005/users/${localStorage.getItem('ID')}`);
+  //     var userData = response.data.data;
+  //     setUserData(userData);
+  //   } catch (error) {
+  //     console.error('Error get user:', error);
+  //   }
+  // };
 
-  getUser();
+  // getUser();
 
 
 
@@ -774,12 +774,12 @@ const ProfilePosts = () => {
     fetchReplies(postId);
   };
 
-  const handleReply = async (postId, replyText) => {
+  const handleReply = async () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:4005/posts/`, 
-        { text: replyText, postId, userId: localStorage.getItem('ID') },
+        `http://localhost:4005/posts/`,
+        { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
         {
           headers: {
             Authorization: token,
@@ -787,10 +787,32 @@ const ProfilePosts = () => {
         }
       );
       setReplyText('');
-      fetchReplies(postId);
+      fetchReplies(selectedPost);
     } catch (error) {
-      console.error('Error posting reply:', error.message);
+      console.error('Error replying to post:', error.message);
     }
+  };
+
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+      return null;
+    }
+  };
+
+  const fetchReplyUserDetails = async (replies) => {
+    const userDetailsPromises = replies.map(async (reply) => {
+      const userDetails = await fetchUserDetails(reply.postedBy);
+      return {
+        ...reply,
+        postedBy: userDetails,
+      };
+    });
+
+    return Promise.all(userDetailsPromises);
   };
 
   const handleRepost = async (postId) => {
@@ -856,12 +878,12 @@ const ProfilePosts = () => {
   const fetchReplies = async (postId) => {
     try {
       const response = await axios.get(`http://localhost:4005/posts/${postId}`);
-      setReplies(response.data.replies);
+      const repliesWithUserDetails = await fetchReplyUserDetails(response.data.replies);
+      setReplies(repliesWithUserDetails);
     } catch (error) {
       console.error('Error fetching replies:', error);
     }
   };
-
   const handleSave = async (postId) => {
     try {
       const token = localStorage.getItem('token');
@@ -948,21 +970,28 @@ const ProfilePosts = () => {
           {selectedPost === post._id && (
             <div>
               <div>
-                {/* Input for adding a reply */}
                 <input
                   type="text"
                   placeholder="Add a reply..."
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                 />
-                <button onClick={() => handleReply(selectedPost, replyText)}>Reply</button>
+                <button onClick={handleReply}>Reply</button>
               </div>
-              {Array.isArray(replies) &&
-                replies.map((reply) => (
-                  <div style={{ color: "white" }} key={reply._id}>
-                    <span>{reply.text}</span>
+              {Array.isArray(replies) && replies.map((reply) => (
+                <div key={reply._id}>
+                  <div className="center__post__header-left">
+                    <img src={reply.postedBy.profilePicture} alt="" />
+                    <span className="center__post__header-left__name">
+                      {reply.postedBy.name}
+                    </span>
+                    <span className="center__post__header-left__user">
+                      @{reply.postedBy.username} . {formatDistanceToNow(new Date(reply.created), { addSuffix: true })}
+                    </span>
                   </div>
-                ))}
+                  <span>{reply.text}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>
