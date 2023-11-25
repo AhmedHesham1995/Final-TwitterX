@@ -244,6 +244,8 @@ import { faComment, faRetweet, faHeart, faChartBar, faArrowUp, faBookmark } from
 import { formatDistanceToNow } from 'date-fns';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';  // Import SweetAlert
+
 
 const ProfileSaved = () => {
   const userId = localStorage.getItem('ID');
@@ -270,12 +272,13 @@ const ProfileSaved = () => {
     fetchReplies(postId);
   };
 
-  const handleReply = async (postId, replyText) => {
+
+  const handleReply = async () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
         `http://localhost:4005/posts/`,
-        { text: replyText, postId, userId: localStorage.getItem('ID') },
+        { text: replyText, postId: selectedPost, userId: localStorage.getItem("ID") },
         {
           headers: {
             Authorization: token,
@@ -283,9 +286,41 @@ const ProfileSaved = () => {
         }
       );
       setReplyText('');
-      fetchReplies(postId);
+      fetchReplies(selectedPost);
     } catch (error) {
-      console.error('Error posting reply:', error.message);
+      console.error('Error replying to post:', error.message);
+    }
+  };
+
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:4005/users/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+      return null;
+    }
+  };
+
+  const fetchReplyUserDetails = async (replies) => {
+    const userDetailsPromises = replies.map(async (reply) => {
+      const userDetails = await fetchUserDetails(reply.postedBy);
+      return {
+        ...reply,
+        postedBy: userDetails,
+      };
+    });
+
+    return Promise.all(userDetailsPromises);
+  };
+
+  const fetchReplies = async (postId) => {
+    try {
+      const response = await axios.get(`http://localhost:4005/posts/${postId}`);
+      const repliesWithUserDetails = await fetchReplyUserDetails(response.data.replies);
+      setReplies(repliesWithUserDetails);
+    } catch (error) {
+      console.error('Error fetching replies:', error);
     }
   };
 
@@ -348,14 +383,30 @@ const ProfileSaved = () => {
     }
   };
 
-  const fetchReplies = async (postId) => {
-    try {
-      const response = await axios.get(`http://localhost:4005/posts/${postId}`);
-      setReplies(response.data.replies);
-    } catch (error) {
-      console.error('Error fetching replies:', error);
+  const handleDeletePost = async (postId) => {
+    // Show SweetAlert confirmation
+    const isConfirmed = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this post!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+      reverseButtons: true,
+    });
+
+    if (isConfirmed.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:4005/posts/${postId}`);
+        fetchSavedPosts();
+        Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+      } catch (error) {
+        console.error('Error', error.message);
+      }
     }
   };
+
+  
 
   return (
     <>
@@ -375,7 +426,8 @@ const ProfileSaved = () => {
               </div>
               <div className="center__post__header-right">
                 <span>
-                  <i className="fas fa-ellipsis svg"></i>
+                <i onClick={() => handleDeletePost(post._id)} className="fas fa-ellipsis svg" ></i>
+
                 </span>
               </div>
             </div>
@@ -420,24 +472,32 @@ const ProfileSaved = () => {
               </span>
             </div>
             {selectedPost === post._id && (
+            <div>
               <div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Add a reply..."
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
-                  />
-                  <button onClick={() => handleReply(selectedPost, replyText)}>Reply</button>
-                </div>
-                {Array.isArray(replies) &&
-                  replies.map((reply) => (
-                    <div style={{ color: 'white' }} key={reply._id}>
-                      <span>{reply.text}</span>
-                    </div>
-                  ))}
+                <input
+                  type="text"
+                  placeholder="Add a reply..."
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                />
+                <button onClick={handleReply}>Reply</button>
               </div>
-            )}
+              {Array.isArray(replies) && replies.map((reply) => (
+                <div key={reply._id}>
+                  <div className="center__post__header-left">
+                    <img src={reply.postedBy.profilePicture} alt="" />
+                    <span className="center__post__header-left__name">
+                      {reply.postedBy.name}
+                    </span>
+                    <span className="center__post__header-left__user">
+                      @{reply.postedBy.username} . {formatDistanceToNow(new Date(reply.created), { addSuffix: true })}
+                    </span>
+                  </div>
+                  <span>{reply.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
           </div>
         ))
       )}
